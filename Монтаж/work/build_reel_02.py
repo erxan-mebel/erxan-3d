@@ -80,13 +80,13 @@ GROUPS = [
 
 # Motion cards: (text, start, end) on the cut timeline.
 CARDS = [
-    ("ЖИ → ДЕТАЛИРОВКА", cut(A, 0.81), cut(A, 6.42), 1000),
-    ("БҰРЫН: 3D + ҚОЛМЕН ✍", cut(A, 7.18), cut(A, 19.83), 1000),
-    ("ҚАЗІР: ЖИ-МЕН ⚡", cut(A, 20.94), cut(A, 25.0), 1000),
-    ("✓ ФУРНИТУРА", cut(B, 0.80), cut(B, 6.67), 680),
-    ("✓ ХДФ", cut(B, 1.46), cut(B, 6.67), 790),
-    ("✓ АЙНА", cut(B, 2.61), cut(B, 6.67), 900),
-    ("✓ ФАСАД", cut(B, 3.69), cut(B, 6.67), 1010),
+    ("ЖИ → ДЕТАЛИРОВКА", cut(A, 0.81), cut(A, 6.42), 1330),
+    ("БҰРЫН: 3D + ҚОЛМЕН ✍", cut(A, 7.18), cut(A, 19.83), 1330),
+    ("ҚАЗІР: ЖИ-МЕН ⚡", cut(A, 20.94), cut(A, 25.0), 1330),
+    ("✓ ФУРНИТУРА", cut(B, 0.80), cut(B, 1.46), 1330),
+    ("✓ ФУРНИТУРА   ✓ ХДФ", cut(B, 1.46), cut(B, 2.61), 1330),
+    ("✓ ФУРНИТУРА   ✓ ХДФ\\N✓ АЙНА", cut(B, 2.61), cut(B, 3.69), 1250),
+    ("✓ ФУРНИТУРА   ✓ ХДФ\\N✓ АЙНА   ✓ ФАСАД", cut(B, 3.69), cut(B, 6.67), 1250),
 ]
 GRAY = (cut(A, 7.18), cut(A, 19.83))  # "before" part in black & white
 
@@ -113,12 +113,12 @@ def build_ass() -> None:
             pop = r"{\fscx92\fscy92\t(0,120,\fscx100\fscy100)}" if i == 0 else ""
             ev.append(f"Dialogue: 1,{ts(s)},{ts(e)},Sub,,0,0,0,,{pop}{txt}")
     # Cards (stacked when overlapping).
+    prev_end = -1
     for text, s, e, yk in CARDS:
-        anim = r"{\an8\pos(540," + str(yk) + r")\fad(80,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}"
+        pop = r"\fad(80,0)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)" if abs(s - prev_end) > 0.01 else ""
+        prev_end = e
+        anim = r"{\an8\pos(540," + str(yk) + r")" + pop + "}"
         ev.append(f"Dialogue: 2,{ts(s)},{ts(e)},Card,,0,0,0,,{anim}{text}")
-    # Top header: blog title.
-    ev.append(f"Dialogue: 3,{ts(0)},{ts(SPEECH_END)},Tag,,0,0,0,,{{\\an7\\pos(60,160)}}✳ МЕБЕЛЬШІНІҢ БЛОГЫ")
-    ev.append(f"Dialogue: 3,{ts(0)},{ts(SPEECH_END)},TagSub,,0,0,0,,{{\\an7\\pos(60,232)}}уақытылы және сапалы")
     # End card.
     e0 = SPEECH_END
     ev.append(f"Dialogue: 4,{ts(e0)},{ts(TOTAL)},End,,0,0,0,,{{\\an5\\pos(540,880)\\fad(200,0)\\fscx80\\fscy80\\t(0,250,\\fscx100\\fscy100)}}ERXAN MEBEL")
@@ -131,8 +131,8 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Sub,Inter ExtraBold,78,&H00FFFFFF,&H00FFFFFF,&H00141414,&H90000000,-1,0,0,0,100,100,0,0,1,6,3,2,40,40,560,1
-Style: Card,Inter ExtraBold,78,&H00141414,&H00141414,&H005B82D9,&H005B82D9,-1,0,0,0,100,100,1,0,3,18,0,8,70,70,0,1
+Style: Sub,Inter ExtraBold,78,&H00FFFFFF,&H00FFFFFF,&H00141414,&H90000000,-1,0,0,0,100,100,0,0,1,6,3,2,40,40,330,1
+Style: Card,Inter ExtraBold,64,&H00141414,&H00141414,&H005B82D9,&H005B82D9,-1,0,0,0,100,100,1,0,3,18,0,8,70,70,0,1
 Style: Tag,JetBrains Mono ExtraBold,38,&H005B82D9,&H00FFFFFF,&H00141414,&H80141414,-1,0,0,0,100,100,0,0,3,10,0,7,0,0,0,1
 Style: TagSub,Inter SemiBold,40,&H00FFFFFF,&H00FFFFFF,&H00141414,&H80141414,-1,0,0,0,100,100,0,0,3,10,0,7,0,0,0,1
 Style: End,Inter Black,120,&H005B82D9,&H005B82D9,&H00141414,&H00000000,-1,0,0,0,100,100,4,0,1,0,0,5,0,0,0,1
@@ -172,8 +172,6 @@ def render() -> None:
         f"hue=s=0:enable='between(t,{GRAY[0]:.2f},{GRAY[1]:.2f})',"
         f"boxblur=20:enable='gte(t,{end})',"
         f"drawbox=x=0:y=0:w=iw:h=ih:color=0x141414@0.72:t=fill:enable='gte(t,{end})',"
-        f"drawbox=x=0:y=120:w=iw:h=8:color=0x3a3a3a@0.8:t=fill:enable='lt(t,{end})',"
-        f"drawbox=x=0:y=120:w='iw*t/{end}':h=8:color=0xD9825B:t=fill:enable='lt(t,{end})',"
         f"subtitles={ASS}"
     )
     af = f"highpass=f=90,afftdn=nf=-22,loudnorm=I=-14:TP=-1.5:LRA=11,apad=whole_dur={TOTAL:.2f}"

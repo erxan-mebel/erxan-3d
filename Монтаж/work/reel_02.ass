@@ -6,8 +6,8 @@ WrapStyle: 0
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Sub,Inter ExtraBold,78,&H00FFFFFF,&H00FFFFFF,&H00141414,&H90000000,-1,0,0,0,100,100,0,0,1,6,3,2,40,40,560,1
-Style: Card,Inter ExtraBold,78,&H00141414,&H00141414,&H005B82D9,&H005B82D9,-1,0,0,0,100,100,1,0,3,18,0,8,70,70,0,1
+Style: Sub,Inter ExtraBold,78,&H00FFFFFF,&H00FFFFFF,&H00141414,&H90000000,-1,0,0,0,100,100,0,0,1,6,3,2,40,40,330,1
+Style: Card,Inter ExtraBold,64,&H00141414,&H00141414,&H005B82D9,&H005B82D9,-1,0,0,0,100,100,1,0,3,18,0,8,70,70,0,1
 Style: Tag,JetBrains Mono ExtraBold,38,&H005B82D9,&H00FFFFFF,&H00141414,&H80141414,-1,0,0,0,100,100,0,0,3,10,0,7,0,0,0,1
 Style: TagSub,Inter SemiBold,40,&H00FFFFFF,&H00FFFFFF,&H00141414,&H80141414,-1,0,0,0,100,100,0,0,3,10,0,7,0,0,0,1
 Style: End,Inter Black,120,&H005B82D9,&H005B82D9,&H00141414,&H00000000,-1,0,0,0,100,100,4,0,1,0,0,5,0,0,0,1
@@ -85,14 +85,12 @@ Dialogue: 1,0:00:33.99,0:00:35.08,Sub,,0,0,0,,Енді {\c&H005B82D9&}шкафт
 Dialogue: 1,0:00:35.08,0:00:35.28,Sub,,0,0,0,,{\fscx92\fscy92\t(0,120,\fscx100\fscy100)}{\c&H005B82D9&}дизайны{\c&H00FFFFFF&} осылай шықты.
 Dialogue: 1,0:00:35.28,0:00:35.70,Sub,,0,0,0,,дизайны {\c&H005B82D9&}осылай{\c&H00FFFFFF&} шықты.
 Dialogue: 1,0:00:35.70,0:00:36.02,Sub,,0,0,0,,дизайны осылай {\c&H005B82D9&}шықты.{\c&H00FFFFFF&}
-Dialogue: 2,0:00:00.00,0:00:05.61,Card,,0,0,0,,{\an8\pos(540,1000)\fad(80,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}ЖИ → ДЕТАЛИРОВКА
-Dialogue: 2,0:00:05.61,0:00:16.32,Card,,0,0,0,,{\an8\pos(540,1000)\fad(80,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}БҰРЫН: 3D + ҚОЛМЕН ✍
-Dialogue: 2,0:00:16.32,0:00:20.38,Card,,0,0,0,,{\an8\pos(540,1000)\fad(80,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}ҚАЗІР: ЖИ-МЕН ⚡
-Dialogue: 2,0:00:20.62,0:00:26.15,Card,,0,0,0,,{\an8\pos(540,680)\fad(80,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}✓ ФУРНИТУРА
-Dialogue: 2,0:00:21.28,0:00:26.15,Card,,0,0,0,,{\an8\pos(540,790)\fad(80,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}✓ ХДФ
-Dialogue: 2,0:00:22.24,0:00:26.15,Card,,0,0,0,,{\an8\pos(540,900)\fad(80,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}✓ АЙНА
-Dialogue: 2,0:00:23.17,0:00:26.15,Card,,0,0,0,,{\an8\pos(540,1010)\fad(80,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}✓ ФАСАД
-Dialogue: 3,0:00:00.00,0:00:36.02,Tag,,0,0,0,,{\an7\pos(60,160)}✳ МЕБЕЛЬШІНІҢ БЛОГЫ
-Dialogue: 3,0:00:00.00,0:00:36.02,TagSub,,0,0,0,,{\an7\pos(60,232)}уақытылы және сапалы
+Dialogue: 2,0:00:00.00,0:00:05.61,Card,,0,0,0,,{\an8\pos(540,1330)\fad(80,0)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}ЖИ → ДЕТАЛИРОВКА
+Dialogue: 2,0:00:05.61,0:00:16.32,Card,,0,0,0,,{\an8\pos(540,1330)}БҰРЫН: 3D + ҚОЛМЕН ✍
+Dialogue: 2,0:00:16.32,0:00:20.38,Card,,0,0,0,,{\an8\pos(540,1330)}ҚАЗІР: ЖИ-МЕН ⚡
+Dialogue: 2,0:00:20.62,0:00:21.28,Card,,0,0,0,,{\an8\pos(540,1330)\fad(80,0)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}✓ ФУРНИТУРА
+Dialogue: 2,0:00:21.28,0:00:22.24,Card,,0,0,0,,{\an8\pos(540,1330)}✓ ФУРНИТУРА   ✓ ХДФ
+Dialogue: 2,0:00:22.24,0:00:23.17,Card,,0,0,0,,{\an8\pos(540,1250)}✓ ФУРНИТУРА   ✓ ХДФ\N✓ АЙНА
+Dialogue: 2,0:00:23.17,0:00:26.15,Card,,0,0,0,,{\an8\pos(540,1250)}✓ ФУРНИТУРА   ✓ ХДФ\N✓ АЙНА   ✓ ФАСАД
 Dialogue: 4,0:00:36.02,0:00:37.62,End,,0,0,0,,{\an5\pos(540,880)\fad(200,0)\fscx80\fscy80\t(0,250,\fscx100\fscy100)}ERXAN MEBEL
 Dialogue: 4,0:00:36.27,0:00:37.62,EndSub,,0,0,0,,{\an5\pos(540,1010)\fad(200,0)}Тапсырыс бойынша жиһаз
