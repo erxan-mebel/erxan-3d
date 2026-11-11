@@ -14,13 +14,13 @@ from dataclasses import dataclass
 from pathlib import Path
 
 PARAMS = dict(
-    W=800,        # overall width
+    W=900,        # overall width
     H=2200,       # overall height
     D=400,        # carcass depth incl. back panel (doors add 16 mm in front)
     T=16,         # LDSP thickness
     HDF=3,        # back panel thickness
     PLINTH=80,    # plinth height
-    SHELVES=5,    # number of fixed shelves
+    SHELVES=4,    # number of fixed shelves
     GAP=2,        # door gap
     COLOR="Ақ",   # LDSP colour
 )
