@@ -8,6 +8,17 @@ description: Transcribe speech to subtitles with Whisper (faster-whisper, Python
 Setup (once per session): `pip3 install -r requirements.txt`. FFmpeg and Python 3 are preinstalled.
 Whisper models download from huggingface.co, so that host must be allowed by the network.
 
+## Getting large videos (Google Drive)
+
+Chat uploads may be size-limited. For big files the user shares a Google Drive link
+("Anyone with the link"); download it with:
+
+```bash
+python3 scripts/fetch_drive.py "<drive link>"
+```
+
+GitHub rejects files over 100 MB, so do not commit sources that large.
+
 ## Transcribe to SRT
 
 ```bash
