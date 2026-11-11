@@ -4,7 +4,6 @@ Video montage workspace.
 
 - `Монтаж/Исходники` — source footage, `Монтаж/Референсы` — references, `Монтаж/Готовые` — finished videos.
 - `3D/` — 3D program (separate session; video work stays in `Монтаж`).
-- `Жобалар/` — furniture projects: `generate.py` builds drawing, cut list (xlsx) and SketchUp files (`.dae`, `.rb`) from PARAMS.
 
 ## Tools and skills (`.claude/skills`)
 
