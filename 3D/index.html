@@ -134,6 +134,17 @@ button { cursor: pointer; }
   width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line); padding: 0; position: relative;
 }
 .swatch[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 2px; }
+.swatch.picker { display: grid; place-items: center; overflow: hidden; cursor: pointer; }
+.swatch.picker input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.swatch.picker span { font-weight: 700; color: #fff; text-shadow: 0 0 3px rgba(0,0,0,.6); pointer-events: none; }
+.patterns { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; }
+.pat {
+  border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 6px 4px;
+  display: grid; justify-items: center; gap: 4px; font-size: 11px; font-weight: 500; min-width: 0;
+}
+.pat img { width: 42px; height: 56px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.pat span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.pat[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); color: var(--accent); }
 .toggle { display: flex; align-items: center; gap: 10px; font-size: 14px; }
 .toggle input { width: 18px; height: 18px; accent-color: var(--accent); }
 

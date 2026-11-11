@@ -2,6 +2,7 @@
 // Модельдің жергілікті координаттары: артқы-сол-төменгі бұрыш (0,0,0),
 // X — ені, Y — биіктігі, Z — тереңдігі (артқы қабырғадан фасадқа қарай).
 import * as THREE from 'three';
+import { plainMaterial, facadeMaterials, glassMaterial } from './facade.js';
 
 export const T = 16;    // корпус ЛДСП қалыңдығы
 export const FT = 18;   // фасад қалыңдығы
@@ -41,6 +42,9 @@ export function newItem(kind, extra = {}) {
     countertop: !!def.countertop,
     body: '#f1f0ec',
     facade: '#f1f0ec',
+    pattern: 'flat',   // есік өрнегі (facade.js → PATTERNS)
+    gloss: false,      // жылтыр фасад
+    patternImg: '',    // «Өз суретім» үшін сурет (dataURL)
     ...extra,
   };
   return it;
@@ -71,8 +75,7 @@ function mat(color, rough = 0.7, metal = 0) {
 export function buildItem(it) {
   const g = new THREE.Group();
   const def = getDef(it.kind);
-  const bodyM = mat(it.body, 0.75);
-  const facM = mat(it.facade, 0.55);
+  const bodyM = plainMaterial(it.body || '#f1f0ec');
   const backM = mat('#d9d6cf', 0.9);
   const darkM = mat('#2a2d2b', 0.8);
   const steelM = mat('#c9ccce', 0.3, 0.9);
@@ -92,6 +95,24 @@ export function buildItem(it) {
 
   const { w, h, d } = it;
   const y0 = it.plinth;
+
+  // Бір есік/тартпа беті: өрнекпен немесе әйнекті рамка
+  const facade = (fw, fh, x, y) => {
+    const pattern = it.pattern || 'flat';
+    if (pattern === 'glass' && fw > 200 && fh > 200) {
+      const fm = plainMaterial(it.facade, it.gloss);
+      const r = 60;
+      box(g, r, fh, FT, x, y, d, fm);
+      box(g, r, fh, FT, x + fw - r, y, d, fm);
+      box(g, fw - 2 * r, r, FT, x + r, y, d, fm);
+      box(g, fw - 2 * r, r, FT, x + r, y + fh - r, d, fm);
+      const glass = box(g, fw - 2 * r, fh - 2 * r, 4, x + r, y + r, d + FT / 2 - 2, glassMaterial, false);
+      if (glass) glass.castShadow = false;
+      return;
+    }
+    const p = pattern === 'glass' ? 'frame' : pattern;
+    box(g, fw, fh, FT, x, y, d, facadeMaterials(it.facade, p, it.gloss, fw, fh, it.patternImg));
+  };
 
   // Корпус
   box(g, T, h, d - BACK, 0, y0, BACK, bodyM);           // сол бүйір
@@ -128,7 +149,7 @@ export function buildItem(it) {
     const dw = (w - GAP * count) / count;
     for (let i = 0; i < count; i++) {
       const x = GAP / 2 + i * (dw + GAP);
-      box(g, dw, hh - GAP, FT, x, yb + GAP / 2, d, facM);
+      facade(dw, hh - GAP, x, yb + GAP / 2);
       const hingeLeft = count === 1 ? true : i % 2 === 0;
       const hx = hingeLeft ? x + dw - 40 : x + 40;
       const hy = handleAt === 'top' ? yb + hh - 110 : handleAt === 'bottom' ? yb + 110 : yb + hh / 2;
@@ -150,7 +171,7 @@ export function buildItem(it) {
     let y = y0;
     for (let i = 0; i < m; i++) {
       const hh = i === m - 1 ? topH : restH;
-      box(g, w - GAP, hh - GAP, FT, GAP / 2, y + GAP / 2, d, facM);
+      facade(w - GAP, hh - GAP, GAP / 2, y + GAP / 2);
       handle(w / 2, y + hh - 50, false);
       y += hh;
     }

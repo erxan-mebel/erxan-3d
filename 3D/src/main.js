@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { COLORS, PATTERNS, swatchCss, colorName, patternThumb, setOnTextureUpdate } from './facade.js';
 import { DEFAULT_ROOM, FLOOR_OPTIONS, WALL_COLORS, buildRoom } from './room.js';
 import { CATALOG, getDef, newItem, setNextId, takeId, buildItem, halfExtents, totalHeight } from './cabinet.js';
 
@@ -32,7 +34,11 @@ const labelRenderer = new CSS2DRenderer({ element: $('#labels') });
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(45, 1, 20, 60000);
 
-scene.add(new THREE.HemisphereLight(0xffffff, 0xb9b2a6, 1.6));
+// Жылтыр фасадтарда шағылыс көрінуі үшін жұмсақ орта жарығы
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.45;
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb9b2a6, 1.15));
 const sun = new THREE.DirectionalLight(0xffffff, 1.7);
 sun.castShadow = true;
 sun.shadow.mapSize.set(2048, 2048);
@@ -359,15 +365,17 @@ function sampleKitchen() {
     state.items.push(it);
     return it;
   };
-  put('tall', 0, { facade: '#3d4a45' });
-  put('base-drawers', 600, { w: 450, facade: '#3d4a45' });
-  put('base', 1050, { w: 800, shelves: 0, facade: '#3d4a45' });
-  put('base', 1850, { facade: '#3d4a45' });
-  put('base', 2450, { w: 450, doors: 1, facade: '#3d4a45' });
-  put('wall', 600, { w: 450, doors: 1 });
-  put('wall', 1050, { w: 800 });
-  put('wall', 1850, { w: 600 });
-  put('wall', 2450, { w: 450, doors: 1 });
+  const low = { facade: '#3d4a45', pattern: 'shaker' };
+  const up = { facade: '#e6dccb', pattern: 'shaker' };
+  put('tall', 0, low);
+  put('base-drawers', 600, { w: 450, ...low });
+  put('base', 1050, { w: 800, shelves: 0, ...low });
+  put('base', 1850, low);
+  put('base', 2450, { w: 450, doors: 1, ...low });
+  put('wall', 600, { w: 450, doors: 1, ...up });
+  put('wall', 1050, { w: 800, ...up, pattern: 'glass' });
+  put('wall', 1850, { w: 600, ...up });
+  put('wall', 2450, { w: 450, doors: 1, ...up });
 }
 
 // ---------- басқару тақтасы ----------
@@ -501,7 +509,6 @@ function renderCatalogTab() {
   }));
 }
 
-const COLORS = ['#f1f0ec', '#d9cfc0', '#a7aaa6', '#3d4a45', '#2e3236', '#6f7559', '#b88a55', '#6b4a33'];
 
 function renderPropsTab() {
   const it = getItem(state.selected);
@@ -529,10 +536,28 @@ function renderPropsTab() {
       ${def.place === 'floor' && def.kind !== 'wardrobe' && def.kind !== 'tall' ? `<label class="toggle"><input type="checkbox" id="pct" ${it.countertop ? 'checked' : ''}> Столешница</label>` : ''}
     </section>
     <section class="group">
-      <h3>Фасад түсі</h3>
-      <div class="swatches">${COLORS.map((c) => `<button class="swatch" data-fac="${c}" style="background:${c}" aria-pressed="${it.facade === c}" aria-label="Фасад ${c}"></button>`).join('')}</div>
+      <h3>Есік түсі</h3>
+      <div class="swatches">${COLORS.map((c) => `<button class="swatch" data-fac="${c.id}" style="background:${swatchCss(c.id)}" aria-pressed="${it.facade === c.id}" title="${c.name}" aria-label="${c.name}"></button>`).join('')}
+        <label class="swatch picker" title="Басқа түс" style="background:${it.facade.startsWith('#') ? it.facade : '#ffffff'}"><input type="color" id="facPick" value="${it.facade.startsWith('#') ? it.facade : '#ffffff'}" aria-label="Басқа түс"><span>+</span></label>
+      </div>
+      <div class="chips">
+        <span class="note" style="align-self:center">${colorName(it.facade)}</span>
+        <button class="chip" id="glossBtn" aria-pressed="${!!it.gloss}">${it.gloss ? 'Жылтыр' : 'Күңгірт'}</button>
+      </div>
+    </section>
+    <section class="group">
+      <h3>Есік өрнегі</h3>
+      <div class="patterns">${PATTERNS.map((p) => `<button class="pat" data-pat="${p.id}" aria-pressed="${(it.pattern || 'flat') === p.id}"><img alt="" src="${patternThumb(p.id, it.facade, it.patternImg)}"><span>${p.name}</span></button>`).join('')}</div>
+      <input type="file" id="imgFile" accept="image/*" hidden>
+      ${(it.pattern === 'image') ? `<button class="btn ghost" id="imgBtn">${it.patternImg ? 'Суретті ауыстыру' : 'Сурет таңдау'}</button>` : ''}
+    </section>
+    <section class="group">
       <h3>Корпус түсі</h3>
-      <div class="swatches">${COLORS.map((c) => `<button class="swatch" data-body="${c}" style="background:${c}" aria-pressed="${it.body === c}" aria-label="Корпус ${c}"></button>`).join('')}</div>
+      <div class="swatches">${COLORS.map((c) => `<button class="swatch" data-body="${c.id}" style="background:${swatchCss(c.id)}" aria-pressed="${it.body === c.id}" title="${c.name}" aria-label="${c.name}"></button>`).join('')}</div>
+    </section>
+    <section class="group">
+      <button class="btn" id="applyAll">Бұл есікті барлық шкафқа қолдану</button>
+      <p class="note">Түсі, өрнегі және жылтырлығы барлық шкафтың есіктері мен тартпаларына көшеді.</p>
     </section>`;
 
   const upd = (patch) => {
@@ -562,8 +587,52 @@ function renderPropsTab() {
   $('#pct')?.addEventListener('change', (e) => upd({ countertop: e.target.checked }));
   body.querySelectorAll('[data-w]').forEach((b) => b.addEventListener('click', () => upd({ w: Number(b.dataset.w) })));
   body.querySelectorAll('[data-fac]').forEach((b) => b.addEventListener('click', () => upd({ facade: b.dataset.fac })));
+  $('#facPick').addEventListener('change', (e) => upd({ facade: e.target.value }));
+  $('#glossBtn').addEventListener('click', () => upd({ gloss: !it.gloss }));
+  body.querySelectorAll('[data-pat]').forEach((b) => b.addEventListener('click', () => {
+    const p = b.dataset.pat;
+    if (p === 'image' && !it.patternImg) { $('#imgFile').click(); return; }
+    upd({ pattern: p });
+  }));
+  $('#imgBtn')?.addEventListener('click', () => $('#imgFile').click());
+  $('#imgFile').addEventListener('change', async (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    const url = await shrinkImage(f);
+    if (url) upd({ pattern: 'image', patternImg: url });
+  });
+  $('#applyAll').addEventListener('click', () => {
+    pushHistory(snapshot());
+    for (const o of state.items) Object.assign(o, { facade: it.facade, pattern: it.pattern, gloss: it.gloss, patternImg: it.patternImg });
+    state.items.forEach(syncItem);
+    commit();
+    renderSheet();
+  });
   body.querySelectorAll('[data-body]').forEach((b) => b.addEventListener('click', () => upd({ body: b.dataset.body })));
 }
+
+// Жүктелген суретті кішірейту (жадқа сыйсын): ең үлкен жағы 640 px, JPEG
+function shrinkImage(file) {
+  return new Promise((resolve) => {
+    const rd = new FileReader();
+    rd.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const k = Math.min(1, 640 / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width * k);
+        c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.85));
+      };
+      img.onerror = () => resolve(null);
+      img.src = rd.result;
+    };
+    rd.onerror = () => resolve(null);
+    rd.readAsDataURL(file);
+  });
+}
+setOnTextureUpdate(() => invalidate());
 
 // ---------- жоғарғы батырмалар ----------
 $('#view3d').addEventListener('click', () => view('3d'));
@@ -653,4 +722,4 @@ renderSheet();
 resize();
 view('3d', true);
 requestAnimationFrame(loop);
-window.__app = { state, view, addItem, select, camera, THREE };
+window.__app = { state, view, addItem, select, camera, controls, THREE };
