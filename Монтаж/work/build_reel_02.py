@@ -3,6 +3,10 @@
 Run from the repo root: python3 Монтаж/work/build_reel_01.py
 """
 import subprocess
+import sys
+
+sys.path.insert(0, "scripts")
+from audio_fx import music, sfx  # noqa: E402
 from pathlib import Path
 
 SRC = Path("Монтаж/Исходники")
@@ -15,8 +19,7 @@ SEGMENTS = [
     (A, 0.81, 6.42), (A, 7.18, 9.46), (A, 10.13, 12.85), (A, 13.36, 16.63),
     (A, 17.39, 19.83), (A, 20.94, 25.00),
     (B, 0.56, 2.42), (B, 2.61, 3.54), (B, 3.69, 6.67), (B, 7.25, 8.24), (B, 8.85, 10.45),
-    (B, 11.63, 15.86), (B, 16.24, 17.01), (B, 17.65, 18.99), (B, 19.63, 19.83),
-    (B, 21.58, 22.00), (B, 22.16, 22.48),
+    (B, 11.63, 15.86), (B, 16.24, 17.01), (B, 17.65, 24.60),  # ending kept whole: design shown
 ]
 END_CARD = 1.6
 
@@ -75,7 +78,7 @@ GROUPS = [
     (B, [("распечатать", 15.04, 15.50), ("еткен", 15.50, 15.86)]),
     (B, [("фурнитураларым.", 16.24, 17.01)]),
     (B, [("Енді", 17.65, 17.90), ("шкафтың", 17.90, 18.99)]),
-    (B, [("дизайны", 19.63, 19.83), ("осылай", 21.58, 22.00), ("шықты.", 22.16, 22.48)]),
+    (B, [("дизайны", 19.50, 20.60), ("осылай", 21.55, 22.00), ("шықты.", 22.00, 24.40)]),
 ]
 
 # Motion cards: (text, start, end) on the cut timeline.
@@ -169,13 +172,28 @@ def render() -> None:
     end = SPEECH_END
     vf = (
         f"tpad=stop_mode=clone:stop_duration={END_CARD},"
-        f"hue=s=0:enable='between(t,{GRAY[0]:.2f},{GRAY[1]:.2f})',"
         f"boxblur=20:enable='gte(t,{end})',"
         f"drawbox=x=0:y=0:w=iw:h=ih:color=0x141414@0.72:t=fill:enable='gte(t,{end})',"
         f"subtitles={ASS}"
     )
-    af = f"highpass=f=90,afftdn=nf=-22,loudnorm=I=-14:TP=-1.5:LRA=11,apad=whole_dur={TOTAL:.2f}"
-    run(["-i", str(joined), "-vf", vf, "-af", af, "-t", f"{TOTAL:.2f}",
+    # Music (ducked under the voice) and sound effects on card pops.
+    music(TOTAL, tmp / "music.wav")
+    events, prev = [], -1
+    for _, cs, ce, _ in CARDS:
+        events.append((cs, "whoosh" if abs(cs - prev) > 0.01 else "pop"))
+        prev = ce
+    events.append((SPEECH_END, "whoosh"))
+    sfx(events, TOTAL, tmp / "sfx.wav")
+    fc = (
+        f"[0:v]{vf}[v];"
+        f"[0:a]highpass=f=90,afftdn=nf=-22,loudnorm=I=-16:TP=-2:LRA=11,aresample=48000,"
+        f"apad=whole_dur={TOTAL:.2f},asplit=2[voice][key];"
+        f"[1:a]volume=0.30[mus];[mus][key]sidechaincompress=threshold=0.02:ratio=6:attack=30:release=400[duck];"
+        f"[2:a]volume=0.55[fx];"
+        f"[voice][duck][fx]amix=inputs=3:normalize=0,alimiter=limit=0.9[a]"
+    )
+    run(["-i", str(joined), "-i", str(tmp / "music.wav"), "-i", str(tmp / "sfx.wav"),
+         "-filter_complex", fc, "-map", "[v]", "-map", "[a]", "-t", f"{TOTAL:.2f}",
          "-c:v", "libx264", "-preset", "medium", "-crf", "22", "-pix_fmt", "yuv420p",
          "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(OUT)])
 
