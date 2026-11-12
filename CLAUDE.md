@@ -13,6 +13,7 @@ Video montage workspace.
 | Remotion (React → MP4, `npx remotion`) | `remotion-best-practices` (router), `remotion-create`, `remotion-render`, … |
 | Whisper (faster-whisper) | `whisper-ffmpeg`, `scripts/transcribe.py` |
 | FFmpeg | `whisper-ffmpeg` |
+| yt-dlp (video download from a link) | `yt-dlp "<link>" -o "Монтаж/Исходники/%(title)s.%(ext)s"` |
 | Python 3 | `pip3 install -r requirements.txt` |
 
 Remotion needs a paid company license for some businesses; see the `remotion-license` skill.
