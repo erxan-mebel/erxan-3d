@@ -1,0 +1,27 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Cap,Inter ExtraBold,92,&H00FFFFFF,&H00FFFFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,6,3,2,80,80,560,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:01.00,Cap,,0,0,0,,{\fad(0,0)\t(0,90,\fscx104\fscy104)\t(90,180,\fscx100\fscy100)}{\c&H005B82D9&\fscx108\fscy108}Клиентіміз{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:01.00,0:00:01.50,Cap,,0,0,0,,{\fad(0,0)\t(0,90,\fscx104\fscy104)\t(90,180,\fscx100\fscy100)}{\c&H005B82D9&\fscx108\fscy108}3{\c&H00FFFFFF&\fscx100\fscy100} миллион теңгеге
+Dialogue: 0,0:00:01.50,0:00:01.80,Cap,,0,0,0,,3 {\c&H005B82D9&\fscx108\fscy108}миллион{\c&H00FFFFFF&\fscx100\fscy100} теңгеге
+Dialogue: 0,0:00:01.80,0:00:02.34,Cap,,0,0,0,,3 миллион {\c&H005B82D9&\fscx108\fscy108}теңгеге{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:02.34,0:00:03.14,Cap,,0,0,0,,{\fad(0,0)\t(0,90,\fscx104\fscy104)\t(90,180,\fscx100\fscy100)}{\c&H005B82D9&\fscx108\fscy108}алданыпты,{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:03.14,0:00:03.50,Cap,,0,0,0,,{\fad(0,0)\t(0,90,\fscx104\fscy104)\t(90,180,\fscx100\fscy100)}{\c&H005B82D9&\fscx108\fscy108}мебель{\c&H00FFFFFF&\fscx100\fscy100} жасатқан.
+Dialogue: 0,0:00:03.50,0:00:04.50,Cap,,0,0,0,,мебель {\c&H005B82D9&\fscx108\fscy108}жасатқан.{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:04.50,0:00:05.22,Cap,,0,0,0,,{\fad(0,0)\t(0,90,\fscx104\fscy104)\t(90,180,\fscx100\fscy100)}{\c&H005B82D9&\fscx108\fscy108}Енді{\c&H00FFFFFF&\fscx100\fscy100} маған айтады:
+Dialogue: 0,0:00:05.22,0:00:05.54,Cap,,0,0,0,,Енді {\c&H005B82D9&\fscx108\fscy108}маған{\c&H00FFFFFF&\fscx100\fscy100} айтады:
+Dialogue: 0,0:00:05.54,0:00:05.92,Cap,,0,0,0,,Енді маған {\c&H005B82D9&\fscx108\fscy108}айтады:{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:05.92,0:00:06.18,Cap,,0,0,0,,{\fad(0,0)\t(0,90,\fscx104\fscy104)\t(90,180,\fscx100\fscy100)}{\c&H005B82D9&\fscx108\fscy108}«Және{\c&H00FFFFFF&\fscx100\fscy100} алаяқ
+Dialogue: 0,0:00:06.18,0:00:07.54,Cap,,0,0,0,,«Және {\c&H005B82D9&\fscx108\fscy108}алаяқ{\c&H00FFFFFF&\fscx100\fscy100}
+Dialogue: 0,0:00:07.54,0:00:08.12,Cap,,0,0,0,,{\fad(0,0)\t(0,90,\fscx104\fscy104)\t(90,180,\fscx100\fscy100)}{\c&H005B82D9&\fscx108\fscy108}емессіңдер{\c&H00FFFFFF&\fscx100\fscy100} ме?» деп.
+Dialogue: 0,0:00:08.12,0:00:08.30,Cap,,0,0,0,,емессіңдер {\c&H005B82D9&\fscx108\fscy108}ме?»{\c&H00FFFFFF&\fscx100\fscy100} деп.
+Dialogue: 0,0:00:08.30,0:00:08.75,Cap,,0,0,0,,емессіңдер ме?» {\c&H005B82D9&\fscx108\fscy108}деп.{\c&H00FFFFFF&\fscx100\fscy100}

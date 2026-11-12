@@ -1,0 +1,243 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #efe7dd; font-family: Inter, sans-serif; }
+  canvas { position: absolute; inset: 0; }
+  .lbl { position: absolute; transform: translate(-50%, -50%); font: 800 34px Inter; color: #1d1d1f;
+         background: #fff; padding: 6px 14px; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,.12); opacity: 0; }
+  #ui { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; }
+  #step { display: inline-block; background: #D9825B; color: #141414; font: 900 66px Inter; letter-spacing: 2px;
+          padding: 14px 34px; border-radius: 14px; opacity: 0; }
+  #line { margin-top: 26px; font: 800 52px Inter; color: #1d1d1f; opacity: 0; }
+  #title { position: absolute; left: 60px; right: 60px; top: 1290px; text-align: center; opacity: 0; }
+  #title .a { font: 900 92px/1.05 Inter; color: #1d1d1f; }
+  #title .b { margin-top: 22px; font: 700 50px Inter; color: #D9825B; }
+  #end { position: absolute; inset: 0; background: #141414; opacity: 0; display: flex; flex-direction: column;
+         align-items: center; justify-content: center; }
+  #end .a { font: 900 118px Inter; letter-spacing: 6px; color: #fff; } #end .a span { color: #D9825B; }
+  #end .b { margin-top: 20px; font: 600 50px Inter; color: #cfcfcf; }
+  #end .c { margin-top: 70px; font: 800 52px Inter; color: #141414; background: #D9825B; padding: 18px 40px; border-radius: 16px; }
+</style>
+</head>
+<body>
+<div id="l1" class="lbl">900</div><div id="l2" class="lbl">2200</div><div id="l3" class="lbl">400</div>
+<div id="title"><div class="a">Шкаф қалай<br>жасалады?</div><div class="b">цехтан үйге дейін</div></div>
+<div id="ui"><div id="step"></div><div id="line"></div></div>
+<div id="end"><div class="a">ERXAN <span>MEBEL</span></div><div class="b">Тапсырыс бойынша жиһаз</div><div class="c">Директке жазыңыз</div></div>
+<script type="module">
+import * as THREE from '/3D/vendor/three.module.min.js';
+
+// ---------- cabinet (mm): x width, y depth (front 0), z height
+const W = 900, H = 2200, D = 400, T = 16, HDF = 3, PL = 80, N = 4, G = 2;
+const Dc = D - HDF, iw = W - 2 * T;
+const P = [];
+const add = (name, kind, x, y, z, dx, dy, dz) => P.push({ name, kind, x, y, z, dx, dy, dz });
+add('plinthB', 'ldsp', T, Dc - T - 20, 0, iw, T, PL);
+add('plinthF', 'ldsp', T, 20, 0, iw, T, PL);
+add('bottom', 'ldsp', T, 0, PL, iw, Dc, T);
+add('sideL', 'ldsp', 0, 0, 0, T, Dc, H);
+add('sideR', 'ldsp', W - T, 0, 0, T, Dc, H);
+add('top', 'ldsp', T, 0, H - T, iw, Dc, T);
+const cell = (H - T - (PL + T) - N * T) / (N + 1);
+for (let i = 0; i < N; i++) add('shelf' + i, 'ldsp', T, 0, PL + T + (i + 1) * cell + i * T, iw, Dc - 20, T);
+add('back', 'hdf', 1, Dc, 1, W - 2, HDF, H - 2);
+const dh = H - PL - 2 * G, dw = (W - 3 * G) / 2;
+add('doorL', 'door', G, -T, PL + G, dw, T, dh);
+add('doorR', 'door', 2 * G + dw, -T, PL + G, dw, T, dh);
+
+const S = 0.001;
+// three: X = x - W/2, Y = z, Z = -(y - D/2)   (front faces +Z)
+const toV = (x, y, z) => new THREE.Vector3((x - W / 2) * S, z * S, -(y - D / 2) * S);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(1080, 1920);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+document.body.prepend(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xefe7dd);
+scene.fog = new THREE.Fog(0xefe7dd, 20, 40);
+const cam = new THREE.PerspectiveCamera(35, 1080 / 1920, 0.05, 50);
+scene.add(new THREE.HemisphereLight(0xffffff, 0xd8c8b6, 1.6));
+const sun = new THREE.DirectionalLight(0xffffff, 2.2);
+sun.position.set(2.5, 5, 3.5);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: 0.5, far: 15 });
+sun.shadow.bias = -0.0005;
+scene.add(sun);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0xcdb9a4, roughness: 1 }));
+floor.rotation.x = -Math.PI / 2;
+floor.receiveShadow = true;
+scene.add(floor);
+
+const mats = {
+  ldsp: new THREE.MeshStandardMaterial({ color: 0xf6f3ee, roughness: 0.65 }),
+  hdf: new THREE.MeshStandardMaterial({ color: 0xc9b49a, roughness: 0.9 }),
+  door: new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35 }),
+};
+const copper = new THREE.Color(0xd9825b);
+
+// ---------- poses
+const qI = new THREE.Quaternion();
+const qZ = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 2);
+const qX = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI / 2);
+const hingeL = toV(G, -T, 0), hingeR = toV(W - G, -T, 0);
+function doorPose(p, ang) { // ang: opening angle (rad)
+  const left = p.name === 'doorL';
+  const hinge = left ? hingeL : hingeR;
+  const c = toV(p.x + p.dx / 2, p.y + p.dy / 2, p.z + p.dz / 2);
+  const off = c.clone().sub(hinge); off.y = 0;
+  const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), left ? -ang : ang);
+  const pos = hinge.clone().add(off.applyQuaternion(q)); pos.y = c.y;
+  return { pos, q };
+}
+let cx = 0, cz = 0, rowD = 0;
+const MAXW = 2.5, GAP = 0.08;
+for (const p of P) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(p.dx * S, p.dz * S, p.dy * S), mats[p.kind]);
+  m.castShadow = m.receiveShadow = true;
+  const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), new THREE.LineBasicMaterial({ color: copper, transparent: true, opacity: 0 }));
+  m.add(e);
+  scene.add(m);
+  p.mesh = m; p.edges = e;
+  p.asmPos = toV(p.x + p.dx / 2, p.y + p.dy / 2, p.z + p.dz / 2);
+  p.asmQ = qI.clone();
+  if (p.kind === 'door') { const o = doorPose(p, 1.75); p.asmPos = o.pos; p.asmQ = o.q; }
+  // flat pose: thinnest axis vertical
+  const mn = Math.min(p.dx, p.dy, p.dz);
+  let fq, fx, fz, th;
+  if (mn === p.dx) { fq = qZ; fx = p.dz * S; fz = p.dy * S; th = p.dx * S; }
+  else if (mn === p.dz) { fq = qI; fx = p.dx * S; fz = p.dy * S; th = p.dz * S; }
+  else { fq = qX; fx = p.dx * S; fz = p.dz * S; th = p.dy * S; }
+  if (cx + fx > MAXW) { cx = 0; cz += rowD + GAP; rowD = 0; }
+  p.flatPos = new THREE.Vector3(cx + fx / 2, th / 2, cz + fz / 2);
+  p.flatQ = fq.clone();
+  cx += fx + GAP; rowD = Math.max(rowD, fz);
+}
+// centre the layout
+const bb = new THREE.Box3(); P.forEach(p => bb.expandByPoint(p.flatPos));
+const ctr = bb.getCenter(new THREE.Vector3());
+P.forEach(p => { p.flatPos.x -= ctr.x; p.flatPos.z -= ctr.z; });
+
+// big sheet for the intro
+const sheetMat = new THREE.MeshStandardMaterial({ color: 0xf6f3ee, roughness: 0.65 });
+const sheet = new THREE.Mesh(new THREE.BoxGeometry(2.75, 0.016, 1.83), sheetMat);
+sheet.castShadow = sheet.receiveShadow = true; scene.add(sheet);
+// wireframe outline (bounding box) for measuring
+const outline = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(W * S, H * S, D * S)),
+  new THREE.LineBasicMaterial({ color: 0x1d1d1f, transparent: true, opacity: 0 }));
+outline.position.set(0, H * S / 2, 0); scene.add(outline);
+
+// ---------- helpers
+const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const prog = (t, a, b) => ease(cl((t - a) / (b - a)));
+const fade = (t, a, b, f = 0.35) => cl((t - a) / f) * cl((b - t) / f);
+const $ = id => document.getElementById(id);
+
+// camera keyframes: [time, position, target]
+const K = [
+  [0, [2.2, 6.8, 7.2], [0, -1.1, 0.3]],
+  [2.99, [0.9, 6.2, 6.6], [0, -1.1, 0.3]],
+  [3.0, [2.6, 1.9, 4.6], [0, 1.0, 0]],
+  [7, [2.9, 2.0, 4.4], [0, 1.0, 0]],
+  [11.5, [-2.2, 2.1, 4.6], [0, 1.0, 0]],
+  [13, [0.0, 11.0, 6.6], [0, -1.6, 0.75]],
+  [19.5, [0.3, 10.6, 6.3], [0, -1.6, 0.75]],
+  [22.5, [3.0, 2.6, 5.2], [0, 1.0, 0.3]],
+  [26, [2.6, 1.9, 4.9], [0, 1.05, 0]],
+  [30, [1.2, 1.5, 4.6], [0, 1.05, 0]],
+];
+function camAt(t) {
+  let i = 0; while (i < K.length - 2 && t > K[i + 1][0]) i++;
+  const [t0, p0, g0] = K[i], [t1, p1, g1] = K[i + 1];
+  const u = ease(cl((t - t0) / (t1 - t0)));
+  const L = (a, b) => a.map((v, k) => v + (b[k] - v) * u);
+  cam.position.fromArray(L(p0, p1));
+  cam.lookAt(new THREE.Vector3().fromArray(L(g0, g1)));
+}
+
+const STEPS = [
+  [3, 7, '1 · ӨЛШЕУ', 'Үйге келіп, өлшейміз'],
+  [7, 12, '2 · 3D СЫЗБА', 'Сызба мен деталировка'],
+  [12, 17, '3 · КЕСУ', 'ЛДСП-ны өлшемге кесеміз'],
+  [17, 20, '4 · КРОМКА', 'Шетін кромкалаймыз'],
+  [20, 26, '5 · ЖИНАУ', 'Детальдарды жинаймыз'],
+  [26, 30, '6 · ОРНАТУ', 'Уақытылы және сапалы'],
+];
+const order = ['plinthB', 'plinthF', 'bottom', 'sideL', 'sideR', 'top', 'shelf0', 'shelf1', 'shelf2', 'shelf3', 'back', 'doorL', 'doorR'];
+P.forEach(p => p.rank = order.indexOf(p.name));
+
+window.renderAt = function (t) {
+  camAt(t);
+  // intro sheet: visible 0..12, splits at 12
+  sheet.visible = t < 3;
+  sheet.position.set(0, 0.008, 0.3);
+  sheet.rotation.y = 0.35 * (1 - t / 3);
+  const sheetOut = t >= 3 && t < 12;
+  sheet.position.y = sheetOut ? -1 : sheet.position.y;
+  if (t >= 12 && t < 12.4) sheet.position.y = 0.008;
+  // measuring outline 3..7
+  outline.material.opacity = fade(t, 3, 7.4) * 0.9;
+  const lbl = [['l1', toV(W / 2, -60, H + 90)], ['l2', toV(W + 140, 0, H / 2)], ['l3', toV(W + 60, D / 2, -40)]];
+  for (const [id, v] of lbl) {
+    const s = v.clone().project(cam);
+    Object.assign($(id).style, { left: (s.x + 1) / 2 * 1080 + 'px', top: (1 - s.y) / 2 * 1920 + 'px', opacity: fade(t, 3.6, 7) });
+  }
+  for (const p of P) {
+    const m = p.mesh;
+    // 7..12 wireframe in assembled pose (doors closed)
+    if (t < 12) {
+      const pose = p.kind === 'door' ? doorPose(p, 0) : { pos: p.asmPos, q: p.asmQ };
+      m.position.copy(pose.pos); m.quaternion.copy(pose.q);
+      m.material = mats[p.kind];
+      m.visible = t >= 7;
+      m.material.transparent = false;
+      m.scale.setScalar(1);
+      p.edges.material.opacity = fade(t, 7, 12.2);
+      m.material.visible = false;
+      continue;
+    }
+    m.visible = true; m.material.visible = true;
+    // 12..17 cut: appear on the floor one by one
+    const appear = prog(t, 12.2 + p.rank * 0.28, 12.2 + p.rank * 0.28 + 0.5);
+    // 20..26 assemble
+    const a0 = 20 + p.rank * 0.38, a = prog(t, a0, a0 + 1.1);
+    const pos = p.flatPos.clone().lerp(p.asmPos, a);
+    pos.y += Math.sin(Math.PI * a) * 0.45;
+    const q = p.flatQ.clone().slerp(p.asmQ, a);
+    if (p.kind === 'door' && t > 26) { const o = doorPose(p, 1.75 * (1 - prog(t, 26.3, 28))); pos.copy(o.pos); q.copy(o.q); }
+    m.position.copy(pos); m.quaternion.copy(q);
+    m.scale.setScalar(t < 20 ? Math.max(0.001, appear) : 1);
+    // 17..20 edge banding glow
+    p.edges.material.opacity = t < 20 ? fade(t, 17 + p.rank * 0.12, 20.6, 0.3) : 0;
+  }
+  // texts
+  const glow = t >= 17 && t < 20.6 ? fade(t, 17, 20.6, 0.4) * (0.55 + 0.45 * Math.sin((t - 17) * 6)) : 0;
+  const warm = new THREE.Color(0xd9825b);
+  mats.ldsp.color.setHex(0xf6f3ee).lerp(warm, 0.9 * glow);
+  mats.door.color.setHex(0xffffff).lerp(warm, 0.9 * glow);
+  $('title').style.opacity = fade(t, 0.3, 3.0, 0.4);
+  let st = STEPS.find(s => t >= s[0] && t < s[1]);
+  if (st) {
+    const k = t - st[0];
+    $('step').textContent = st[2]; $('line').textContent = st[3];
+    const pop = cl(k / 0.25);
+    $('step').style.opacity = fade(t, st[0], st[1], 0.2);
+    $('step').style.transform = `scale(${0.7 + 0.3 * ease(pop)})`;
+    $('line').style.opacity = fade(t, st[0] + 0.2, st[1], 0.25);
+  } else { $('step').style.opacity = 0; $('line').style.opacity = 0; }
+  $('end').style.opacity = cl((t - 30) / 0.4);
+  renderer.render(scene, cam);
+};
+window.ready = true;
+</script>
+</body>
+</html>
