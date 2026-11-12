@@ -83,6 +83,55 @@ const mats = {
   door: new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.35 }),
 };
 const copper = new THREE.Color(0xd9825b);
+const Q = new URLSearchParams(location.search);
+const STYLE = Q.get('style') || 'minimal';
+const BASE = { ldsp: 0xf6f3ee, door: 0xffffff };
+const extraLines = [];
+function woodTex(base, dark, rot = false) {
+  const c = document.createElement('canvas'); c.width = c.height = 512;
+  const g = c.getContext('2d'); g.fillStyle = base; g.fillRect(0, 0, 512, 512);
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 140; i++) {
+    const x = rnd() * 512, w = 1 + rnd() * 4;
+    g.strokeStyle = dark; g.globalAlpha = 0.08 + rnd() * 0.22; g.lineWidth = w; g.beginPath();
+    for (let y = 0; y <= 512; y += 16) g.lineTo(x + Math.sin(y / 60 + i) * 6 * rnd(), y);
+    g.stroke();
+  }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; if (rot) t.rotation = Math.PI / 2;
+  return t;
+}
+function setBg(col) { scene.background = new THREE.Color(col); scene.fog.color = new THREE.Color(col); }
+if (STYLE === 'premium') {
+  setBg(0x161412);
+  floor.material.color.setHex(0x2e2924);
+  scene.children.filter(o => o.isHemisphereLight).forEach(h => h.intensity = 1.0);
+  sun.intensity = 2.4; sun.color.setHex(0xfff0dd);
+  const rim = new THREE.PointLight(0xd9825b, 6, 8); rim.position.set(-1.6, 2.2, 1.2); scene.add(rim);
+  mats.ldsp.color.setHex(0x6a6a70); BASE.ldsp = 0x6a6a70;
+  mats.hdf.color.setHex(0x2a2420);
+  mats.door.map = woodTex('#9a6438', '#3b2010'); mats.door.roughness = 0.5; BASE.door = 0xffffff;
+} else if (STYLE === 'wood') {
+  setBg(0xf3eee7);
+  floor.material.map = woodTex('#c9a27a', '#7a5636', true); floor.material.map.repeat.set(10, 10); floor.material.color.setHex(0xffffff);
+  const wall = new THREE.Mesh(new THREE.PlaneGeometry(12, 6), new THREE.MeshStandardMaterial({ color: 0xf1ebe3 }));
+  wall.position.set(0, 3, -0.6); wall.receiveShadow = true; scene.add(wall);
+  mats.door.map = woodTex('#d8b48a', '#8a5d36'); mats.door.roughness = 0.55;
+} else if (STYLE === 'toon') {
+  const gm = new THREE.DataTexture(new Uint8Array([90, 170, 255]), 3, 1, THREE.RedFormat);
+  gm.minFilter = gm.magFilter = THREE.NearestFilter; gm.needsUpdate = true;
+  const toon = c => new THREE.MeshToonMaterial({ color: c, gradientMap: gm });
+  setBg(0xbfe3ff);
+  floor.material = toon(0xffe2b8); floor.receiveShadow = true;
+  mats.ldsp = toon(0xfff6ea); mats.hdf = toon(0xf7c59f); mats.door = toon(0x8fd3c1);
+  BASE.ldsp = 0xfff6ea; BASE.door = 0x8fd3c1;
+} else if (STYLE === 'blueprint') {
+  setBg(0x0f3d75);
+  floor.material = new THREE.MeshBasicMaterial({ color: 0x0f3d75 });
+  const grid = new THREE.GridHelper(40, 160, 0x5f8fc7, 0x2f63a0); grid.position.y = 0.001; scene.add(grid);
+  for (const k of ['ldsp', 'hdf', 'door']) mats[k] = new THREE.MeshBasicMaterial({ color: 0x1d5aa3, transparent: true, opacity: 0.55 });
+  BASE.ldsp = BASE.door = 0x1d5aa3;
+}
 
 // ---------- poses
 const qI = new THREE.Quaternion();
@@ -105,6 +154,7 @@ for (const p of P) {
   m.castShadow = m.receiveShadow = true;
   const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), new THREE.LineBasicMaterial({ color: copper, transparent: true, opacity: 0 }));
   m.add(e);
+  if (STYLE === 'toon' || STYLE === 'blueprint') { const o = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), new THREE.LineBasicMaterial({ color: STYLE === 'toon' ? 0x2b2b2b : 0xffffff })); m.add(o); }
   scene.add(m);
   p.mesh = m; p.edges = e;
   p.asmPos = toV(p.x + p.dx / 2, p.y + p.dy / 2, p.z + p.dz / 2);
@@ -222,8 +272,8 @@ window.renderAt = function (t) {
   // texts
   const glow = t >= 17 && t < 20.6 ? fade(t, 17, 20.6, 0.4) * (0.55 + 0.45 * Math.sin((t - 17) * 6)) : 0;
   const warm = new THREE.Color(0xd9825b);
-  mats.ldsp.color.setHex(0xf6f3ee).lerp(warm, 0.9 * glow);
-  mats.door.color.setHex(0xffffff).lerp(warm, 0.9 * glow);
+  mats.ldsp.color.setHex(BASE.ldsp).lerp(warm, 0.9 * glow);
+  mats.door.color.setHex(BASE.door).lerp(warm, 0.9 * glow);
   $('title').style.opacity = fade(t, 0.3, 3.0, 0.4);
   let st = STEPS.find(s => t >= s[0] && t < s[1]);
   if (st) {
@@ -237,6 +287,7 @@ window.renderAt = function (t) {
   $('end').style.opacity = cl((t - 30) / 0.4);
   renderer.render(scene, cam);
 };
+if (Q.get('still')) for (const id of ['ui', 'title', 'end', 'l1', 'l2', 'l3']) $(id).style.display = 'none';
 window.ready = true;
 </script>
 </body>
