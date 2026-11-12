@@ -7,10 +7,12 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, "scripts")
-from audio_fx import music, sfx  # noqa: E402
+from audio_fx import music, music_dombra, music_trap, sfx  # noqa: E402
+
+STYLE = sys.argv[1] if len(sys.argv) > 1 else "lofi"  # lofi | trap | dombra | none
 
 SRC = Path("Монтаж/Исходники/СТО")
-OUT = Path("Монтаж/Готовые/reel_04_СТО_мықты_құдаларым.mp4")
+OUT = Path(f"Монтаж/Готовые/reel_04_СТО_мықты_құдаларым{'' if STYLE == 'lofi' else '_' + STYLE}.mp4")
 TMP = Path("Монтаж/work/tmp_reel_04")
 ASS = TMP / "cards.ass"
 
@@ -133,7 +135,13 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     joined = TMP / "joined.mov"
     run([*ins, "-filter_complex", ";".join(fc), "-map", f"[{prev_v}]", "-map", f"[{prev_a}]",
          "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", str(joined)])
-    music(total, TMP / "music.wav", bpm=112, seed=11)
+    gen = {"lofi": lambda: music(total, TMP / "music.wav", bpm=112, seed=11),
+           "trap": lambda: music_trap(total, TMP / "music.wav"),
+           "dombra": lambda: music_dombra(total, TMP / "music.wav")}
+    if STYLE == "none":
+        run(["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", f"{total}", str(TMP / "music.wav")])
+    else:
+        gen[STYLE]()
     sfx([(c, "whoosh") for c in starts[1:]] + [(speech_end, "whoosh"), (speech_end + 0.5, "pop")], total, TMP / "sfx.wav")
     vf = (f"tpad=stop_mode=clone:stop_duration={END_CARD},"
           f"boxblur=22:enable='gte(t,{speech_end})',"

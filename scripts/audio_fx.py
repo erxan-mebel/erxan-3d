@@ -110,3 +110,107 @@ def sfx(events, seconds, path, seed=3):
         j = min(n, start + len(sig))
         out[start:j] += sig[: j - start]
     _save(path, out * 0.7)
+
+
+# ---------------------------------------------------------------- extra music styles
+def _kick(rng, amp=0.9):
+    t = np.arange(int(0.35 * SR)) / SR
+    return amp * np.sin(2 * np.pi * (45 + 110 * np.exp(-25 * t)) * t) * np.exp(-7 * t)
+
+
+def _clap(rng, amp=0.35):
+    t = np.arange(int(0.25 * SR)) / SR
+    n = rng.standard_normal(len(t))
+    n = n - np.convolve(n, np.ones(8) / 8, mode="same")  # brighter
+    env = np.exp(-18 * t) + 0.6 * np.exp(-60 * np.abs(t - 0.012)) + 0.4 * np.exp(-60 * np.abs(t - 0.024))
+    return amp * n * env
+
+
+def _hat(rng, amp=0.08, d=0.05):
+    t = np.arange(int(d * SR)) / SR
+    return amp * np.diff(rng.standard_normal(len(t)), prepend=0) * np.exp(-70 * t)
+
+
+def _pluck(freq, dur, amp=0.5, damp=0.996, seed=1):
+    rng = np.random.default_rng(seed)
+    n = int(dur * SR)
+    p = max(2, int(SR / freq))
+    buf = rng.uniform(-1, 1, p)
+    out = np.empty(n)
+    for i in range(n):
+        out[i] = buf[i % p]
+        buf[i % p] = damp * 0.5 * (buf[i % p] + buf[(i + 1) % p])
+    return amp * out
+
+
+def _mix_into(out, sig, t):
+    i = int(t * SR)
+    j = min(len(out), i + len(sig))
+    if i < len(out):
+        out[i:j] += sig[: j - i]
+
+
+def _finish(out, path, seconds):
+    out = out[: int(seconds * SR)]
+    fi, fo = int(0.5 * SR), int(1.5 * SR)
+    out[:fi] *= np.linspace(0, 1, fi)
+    out[-fo:] *= np.linspace(1, 0, fo)
+    out = np.tanh(1.4 * out / (np.abs(out).max() + 1e-9))
+    _save(path, out * 0.85)
+
+
+def music_trap(seconds, path, bpm=140, seed=5):
+    """Energetic trap / phonk-style beat: 808 bass, claps, rolling hats, dark bell riff."""
+    rng = np.random.default_rng(seed)
+    out = np.zeros(int((seconds + 2) * SR))
+    beat = 60 / bpm
+    bar = 4 * beat
+    roots = [41, 41, 44, 39]  # F F Ab Eb
+    riff = [0, 3, 7, 10, 7, 3, 12, 10]
+    t, k = 0.0, 0
+    while t < seconds:
+        r = roots[k % 4]
+        # 808: long sine with pitch drop
+        tt = np.arange(int(bar * 0.9 * SR)) / SR
+        f = _mtof(r) * (1 + 0.6 * np.exp(-30 * tt))
+        _mix_into(out, 0.55 * np.tanh(2 * np.sin(2 * np.pi * np.cumsum(f) / SR)) * np.exp(-1.2 * tt), t)
+        for b in (0, 2.5):
+            _mix_into(out, _kick(rng), t + b * beat)
+        for b in (1, 3):
+            _mix_into(out, _clap(rng), t + b * beat)
+        for h in range(16):
+            roll = (k % 2 == 1 and h >= 12)
+            for s in ((0, 0.5) if roll else (0,)):
+                _mix_into(out, _hat(rng, 0.07 if h % 2 == 0 else 0.045), t + (h + s) * beat / 4)
+        for i, iv in enumerate(riff):  # cowbell-ish bell
+            _mix_into(out, _note(_mtof(r + 36 + iv), beat * 0.45, 0.07, decay=9, harm=(1, 0.6, 0.0, 0.3)), t + i * beat / 2)
+        t += bar
+        k += 1
+    _finish(out, path, seconds)
+
+
+def music_dombra(seconds, path, bpm=120, seed=9):
+    """Upbeat steppe groove: dombra-like plucked riff (minor pentatonic), kick and claps."""
+    rng = np.random.default_rng(seed)
+    out = np.zeros(int((seconds + 2) * SR))
+    beat = 60 / bpm
+    base = 57  # A
+    pent = [0, 3, 5, 7, 10, 12]
+    pattern = [0, 0, 2, 0, 3, 2, 1, 0, 0, 0, 2, 0, 4, 3, 2, 1]  # 16th-note dombra strum pattern
+    t, k = 0.0, 0
+    while t < seconds:
+        for i, idx in enumerate(pattern):
+            n = base + pent[idx] + (12 if (k % 4 == 3 and i >= 8) else 0)
+            amp = 0.35 if i % 4 == 0 else 0.22
+            _mix_into(out, _pluck(_mtof(n), 0.5, amp, seed=i + k * 16), t + i * beat / 4)
+            if i % 4 == 0:
+                _mix_into(out, _pluck(_mtof(n - 12), 0.6, 0.2, seed=99 + i), t + i * beat / 4)
+        for b in range(4):
+            _mix_into(out, _kick(rng, 0.7), t + b * beat)
+            if b % 2:
+                _mix_into(out, _clap(rng, 0.25), t + b * beat)
+            _mix_into(out, _hat(rng, 0.05), t + b * beat + beat / 2)
+        _mix_into(out, _note(_mtof(base - 24), 4 * beat, 0.25, decay=0.7, harm=(1, 0.2)), t)
+        t += 4 * beat
+        k += 1
+    _finish(out, path, seconds)
