@@ -25,7 +25,7 @@ SHOTS = [
     ("IMG_5416.mov", 0.2, 3.2, "Барлық көлікті жөндейді"),
     ("IMG_5415.mov", 0.0, 3.2, "Нәтижесі — көз тоймайды"),
 ]
-END_CARD = 2.8
+END_CARD = 3.8
 
 
 def ts(x):
@@ -54,8 +54,16 @@ def main():
         t += d
     speech_end = t
     total = t + END_CARD
-    ev.append(f"Dialogue: 2,{ts(speech_end + 0.1)},{ts(total)},Svc,,0,0,0,,{{\\an5\\pos(540,820)\\fad(200,0)}}МОТОР · БОЯУ\\NКУЗОВ · ЖӨНДЕУ")
-    ev.append(f"Dialogue: 2,{ts(speech_end + 0.5)},{ts(total)},EndSub,,0,0,0,,{{\\an5\\pos(540,1060)\\fad(200,0)}}Машинаңызды сеніп тапсырыңыз")
+    e0 = speech_end
+    end_lines = [
+        (0.1, 640, "Name", "СТО «БУМЕР»"),
+        (0.4, 800, "Svc", "МОТОР · БОЯУ · КУЗОВ · ЖӨНДЕУ"),
+        (0.8, 960, "EndSub", "Бас мастер: Төрехан Тулеухан"),
+        (1.1, 1050, "EndSub", "Мекенжайы: Ақан сері"),
+        (1.5, 1240, "Cta", "Машинаңызды сеніп тапсырыңыз"),
+    ]
+    for dt, y, style, text in end_lines:
+        ev.append(f"Dialogue: 2,{ts(e0 + dt)},{ts(total)},{style},,0,0,0,,{{\\an5\\pos(540,{y})\\fad(200,0)}}{text}")
     head = """[Script Info]
 ScriptType: v4.00+
 PlayResX: 1080
@@ -65,7 +73,9 @@ WrapStyle: 2
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Card,Inter ExtraBold,74,&H00141414,&H00141414,&H005B82D9,&H005B82D9,-1,0,0,0,100,100,1,0,3,20,0,2,60,60,0,1
-Style: Svc,Inter Black,92,&H005B82D9,&H005B82D9,&H00141414,&H00000000,-1,0,0,0,100,100,3,0,1,0,0,5,0,0,0,1
+Style: Name,Inter Black,120,&H005B82D9,&H005B82D9,&H00141414,&H00000000,-1,0,0,0,100,100,3,0,1,0,0,5,0,0,0,1
+Style: Cta,Inter ExtraBold,56,&H00141414,&H00141414,&H005B82D9,&H005B82D9,-1,0,0,0,100,100,0,0,3,20,0,5,0,0,0,1
+Style: Svc,Inter ExtraBold,52,&H00FFFFFF,&H00FFFFFF,&H00141414,&H00000000,-1,0,0,0,100,100,3,0,1,0,0,5,0,0,0,1
 Style: EndSub,Inter SemiBold,58,&H00FFFFFF,&H00FFFFFF,&H00141414,&H00000000,-1,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1
 
 [Events]
