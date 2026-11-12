@@ -27,4 +27,7 @@ Remotion needs a paid company license for some businesses; see the `remotion-lic
 - Length: aim for 30–60 s (the user finds 15–25 s reels too short). If the footage is shorter, say so and ask for more clips rather than padding; keep natural pauses shorter than 0.3 s instead of cutting everything.
 - Synthesised music is a fallback; always also offer a no-music version (user adds a trending Instagram track) with the original sound kept clear.
 - Never keep off-topic talk or swearing from the background; mute it.
+- Default build for footage reels: HyperFrames, in the style of `Монтаж/work/reel_04_hf` (animated icon cards in the lower part of the safe band, white flash on cuts, animated end card with services, contacts and a pulsing phone button). Don't fall back to a plain FFmpeg edit unless asked.
+- Before building, ask once for anything the end card needs (name, phone, address, services) if it is missing.
+- Deliver a no-music version plus music versions (energetic, dombra) in one go.
 - Whenever the user states a new preference, add it to this list.
