@@ -16,3 +16,10 @@ Video montage workspace.
 | Python 3 | `pip3 install -r requirements.txt` |
 
 Remotion needs a paid company license for some businesses; see the `remotion-license` skill.
+
+## Montage rules (from the user)
+
+- Subtitles and cards always in the lower part of the frame; never over the face or the main subject.
+- No black-and-white sections; no top progress bar; no "блог" header.
+- Keep the ending of the speaker's last sentence and what it shows.
+- Add background music (ducked under the voice) and card sound effects (`scripts/audio_fx.py`).
