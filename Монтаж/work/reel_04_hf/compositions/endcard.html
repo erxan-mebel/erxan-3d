@@ -1,0 +1,71 @@
+<template>
+  <style>
+    @font-face { font-family: "InterK"; font-weight: 600; src: url("assets/fonts/Inter-SemiBold.otf"); }
+    @font-face { font-family: "InterK"; font-weight: 800; src: url("assets/fonts/Inter-ExtraBold.otf"); }
+    @font-face { font-family: "InterK"; font-weight: 900; src: url("assets/fonts/Inter-Black.otf"); }
+    #root { position: absolute; inset: 0; font-family: "InterK", sans-serif; color: #fff; overflow: hidden; }
+    #e-bg { position: absolute; inset: 0; background: radial-gradient(circle at 50% 38%, #3a2418 0%, #161311 55%, #0f0d0c 100%); }
+    #e-stripes { position: absolute; left: -400px; top: 0; width: 1880px; height: 1920px; opacity: 0.07;
+      background: repeating-linear-gradient(-45deg, #d9825b 0 26px, transparent 26px 70px); }
+    #e-glow { position: absolute; left: 240px; top: 300px; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,130,91,0.35), rgba(217,130,91,0) 70%); }
+    #e-head { position: absolute; left: 0; right: 0; top: 200px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    #e-name { font-weight: 900; font-size: 116px; color: #d9825b; letter-spacing: 3px; }
+    #e-tiles { position: absolute; left: 70px; top: 470px; width: 940px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .tile { height: 150px; border-radius: 26px; background: rgba(255,255,255,0.06); border: 2px solid rgba(217,130,91,0.55);
+      display: flex; align-items: center; gap: 22px; padding: 0 26px; }
+    .tile-ic { flex: 0 0 106px; height: 106px; border-radius: 50%; background: #d9825b; display: flex; align-items: center; justify-content: center; }
+    .tile-tx { font-weight: 900; font-size: 50px; letter-spacing: 1px; }
+    #e-masters { position: absolute; left: 0; right: 0; top: 830px; text-align: center; }
+    #e-ml1 { font-weight: 600; font-size: 44px; color: #e6d7cc; }
+    #e-ml2 { font-weight: 900; font-size: 66px; margin-top: 6px; }
+    #e-addr { position: absolute; left: 0; right: 0; top: 1010px; display: flex; justify-content: center; align-items: center; gap: 14px;
+      font-weight: 600; font-size: 46px; color: #f3ebe5; }
+    #e-phone { position: absolute; left: 150px; top: 1095px; width: 780px; height: 116px; border-radius: 58px; background: #d9825b;
+      display: flex; align-items: center; justify-content: center; gap: 18px; color: #141414; font-weight: 900; font-size: 62px; }
+    #e-cta { position: absolute; left: 0; right: 0; top: 1240px; text-align: center; font-weight: 800; font-size: 46px; color: #fff; }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1920">
+    <div id="e-bg"></div>
+    <div id="e-stripes"></div>
+    <div id="e-glow"></div>
+    <div id="e-head">
+      <svg id="e-wrench" viewBox="0 0 64 64" width="120" height="120"><path d="M44 8a12 12 0 0 0-11 16L10 47a5 5 0 0 0 7 7l23-23a12 12 0 0 0 16-11l-7 4-6-3-1-7z" fill="#d9825b"/></svg>
+      <div id="e-name">СТО «БУМЕР»</div>
+    </div>
+    <div id="e-tiles">
+      <div id="e-t0" class="tile"><div class="tile-ic"><svg viewBox="0 0 64 64" width="84" height="84"><g fill="#141414"><rect x="28" y="4" width="8" height="12" rx="2" transform="rotate(0 32 32)"/><rect x="28" y="4" width="8" height="12" rx="2" transform="rotate(45 32 32)"/><rect x="28" y="4" width="8" height="12" rx="2" transform="rotate(90 32 32)"/><rect x="28" y="4" width="8" height="12" rx="2" transform="rotate(135 32 32)"/><rect x="28" y="4" width="8" height="12" rx="2" transform="rotate(180 32 32)"/><rect x="28" y="4" width="8" height="12" rx="2" transform="rotate(225 32 32)"/><rect x="28" y="4" width="8" height="12" rx="2" transform="rotate(270 32 32)"/><rect x="28" y="4" width="8" height="12" rx="2" transform="rotate(315 32 32)"/><circle cx="32" cy="32" r="18"/></g><circle cx="32" cy="32" r="7" fill="#d9825b"/></svg></div><div class="tile-tx">МОТОР</div></div>
+      <div id="e-t1" class="tile"><div class="tile-ic"><svg viewBox="0 0 64 64" width="84" height="84"><rect x="27" y="4" width="10" height="14" rx="3" fill="#141414"/><path d="M22 20h20M22 26h20M22 32h20M22 38h20M22 44h20" stroke="#141414" stroke-width="4"/><rect x="27" y="46" width="10" height="14" rx="3" fill="#141414"/></svg></div><div class="tile-tx">ХОДОВКА</div></div>
+      <div id="e-t2" class="tile"><div class="tile-ic"><svg viewBox="0 0 64 64" width="84" height="84"><rect x="20" y="22" width="20" height="34" rx="5" fill="#141414"/><rect x="25" y="12" width="10" height="10" fill="#141414"/><rect x="34" y="13" width="8" height="5" fill="#141414"/><g fill="#141414"><circle cx="50" cy="12" r="2.5"/><circle cx="56" cy="18" r="2"/><circle cx="52" cy="22" r="2.5"/></g></svg></div><div class="tile-tx">БОЯУ</div></div>
+      <div id="e-t3" class="tile"><div class="tile-ic"><svg viewBox="0 0 64 64" width="84" height="84"><path d="M8 40l5-13c1-3 4-5 7-5h24c3 0 6 2 7 5l5 13v8H8z" fill="#141414"/><rect x="16" y="26" width="14" height="9" rx="2" fill="#d9825b"/><rect x="34" y="26" width="14" height="9" rx="2" fill="#d9825b"/><circle cx="18" cy="48" r="6" fill="#141414" stroke="#d9825b" stroke-width="3"/><circle cx="46" cy="48" r="6" fill="#141414" stroke="#d9825b" stroke-width="3"/></svg></div><div class="tile-tx">КУЗОВ</div></div>
+    </div>
+    <div id="e-masters"><div id="e-ml1">Бас шеберлер, мықты мотористер:</div><div id="e-ml2" data-var-text="masters">Төрехан мен Тулеухан</div></div>
+    <div id="e-addr"><svg id="e-pin" viewBox="0 0 64 64" width="56" height="56"><path d="M32 6c-10 0-18 8-18 18 0 14 18 34 18 34s18-20 18-34c0-10-8-18-18-18z" fill="#d9825b"/><circle cx="32" cy="24" r="7" fill="#141414"/></svg><span data-var-text="address">Қосшы қаласы, Ақан сері, 5</span></div>
+    <div id="e-phone"><svg viewBox="0 0 64 64" width="64" height="64"><path d="M18 8l8 2 4 12-6 4c3 7 8 12 14 14l4-6 12 4 2 8c-1 6-6 8-10 8C27 54 10 37 10 18c0-4 2-9 8-10z" fill="#141414"/></svg><span data-var-text="phone">+7 778 737 38 85</span></div>
+    <div id="e-cta">Машинаңызды сеніп тапсырыңыз</div>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#e-bg", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0);
+    tl.fromTo("#e-stripes", { x: 0 }, { x: 280, duration: 5, ease: "none" }, 0);
+    tl.fromTo("#e-glow", { scale: 0.8, opacity: 0.6 }, { scale: 1.15, opacity: 1, duration: 1.2, yoyo: true, repeat: 3, ease: "sine.inOut" }, 0);
+    tl.fromTo("#e-wrench", { rotation: -200, scale: 0 }, { rotation: 0, scale: 1, duration: 0.7, ease: "back.out(1.8)", transformOrigin: "50% 50%" }, 0.1);
+    tl.fromTo("#e-name", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "power4.out" }, 0.25);
+    tl.fromTo("#e-t0", { y: 60, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, 0.60);
+    tl.fromTo("#e-t0 .tile-ic", { rotation: -120 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.65);
+    tl.fromTo("#e-t1", { y: 60, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, 0.75);
+    tl.fromTo("#e-t1 .tile-ic", { rotation: -120 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.80);
+    tl.fromTo("#e-t2", { y: 60, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, 0.90);
+    tl.fromTo("#e-t2 .tile-ic", { rotation: -120 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 0.95);
+    tl.fromTo("#e-t3", { y: 60, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, 1.05);
+    tl.fromTo("#e-t3 .tile-ic", { rotation: -120 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" }, 1.10);
+    tl.fromTo("#e-masters", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 1.35);
+    tl.fromTo("#e-addr", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 1.6);
+    tl.fromTo("#e-pin", { y: -30 }, { y: 0, duration: 0.6, ease: "bounce.out" }, 1.6);
+    tl.fromTo("#e-phone", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, 1.85);
+    tl.to("#e-phone", { scale: 1.07, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 2.4);
+    tl.fromTo("#e-cta", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 2.2);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html
+  lang="kk"
+  data-composition-variables='[
+    {"id":"phone","type":"string","label":"Телефон","default":"+7 778 737 38 85"},
+    {"id":"address","type":"string","label":"Мекенжай","default":"Қосшы қаласы, Ақан сері, 5"},
+    {"id":"masters","type":"string","label":"Шеберлер","default":"Төрехан мен Тулеухан"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "InterK"; font-weight: 600; src: url("assets/fonts/Inter-SemiBold.otf"); }
+      @font-face { font-family: "InterK"; font-weight: 800; src: url("assets/fonts/Inter-ExtraBold.otf"); }
+      @font-face { font-family: "InterK"; font-weight: 900; src: url("assets/fonts/Inter-Black.otf"); }
+      :root { --ground: #141414; --ink: #ffffff; --copper: #d9825b; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; font-family: "InterK", sans-serif; }
+      video.shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="27.9" data-width="1080" data-height="1920">
+      <video id="v0" class="clip shot" src="assets/video/shot0.mp4" data-start="0" data-duration="2.5" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:1"></video>
+      <video id="v1" class="clip shot" src="assets/video/shot1.mp4" data-start="2.5" data-duration="3" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:2"></video>
+      <video id="v2" class="clip shot" src="assets/video/shot2.mp4" data-start="5.5" data-duration="3" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:3"></video>
+      <video id="v3" class="clip shot" src="assets/video/shot3.mp4" data-start="8.5" data-duration="3" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:4"></video>
+      <video id="v4" class="clip shot" src="assets/video/shot4.mp4" data-start="11.5" data-duration="3" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:5"></video>
+      <video id="v5" class="clip shot" src="assets/video/shot5.mp4" data-start="14.5" data-duration="2.2" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:6"></video>
+      <video id="v6" class="clip shot" src="assets/video/shot6.mp4" data-start="16.7" data-duration="3" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:7"></video>
+      <video id="v7" class="clip shot" src="assets/video/shot7.mp4" data-start="19.7" data-duration="3.2" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:8"></video>
+
+      <div id="cards" data-composition-id="cards" data-composition-src="compositions/cards.html"
+           data-start="0" data-duration="22.9" data-track-index="1" data-track-kind="graphics"
+           data-width="1080" data-height="1920" style="z-index:20"></div>
+      <div id="endcard" data-composition-id="endcard" data-composition-src="compositions/endcard.html"
+           data-start="22.9" data-duration="5" data-track-index="2" data-track-kind="graphics"
+           data-width="1080" data-height="1920" style="z-index:30"></div>
+
+      <audio id="sfx" class="clip" src="assets/sfx.wav" data-start="0" data-duration="27.9" data-track-index="3" data-volume="0.9"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>
