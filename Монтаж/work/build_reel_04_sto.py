@@ -143,12 +143,14 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     else:
         gen[STYLE]()
     sfx([(c, "whoosh") for c in starts[1:]] + [(speech_end, "whoosh"), (speech_end + 0.5, "pop")], total, TMP / "sfx.wav")
+    # ASMR: in the no-music version the workshop sound is the soundtrack
+    AMB = "highpass=f=60,loudnorm=I=-16:TP=-2:LRA=11" if STYLE == "none" else "volume=0.22"
     vf = (f"tpad=stop_mode=clone:stop_duration={END_CARD},"
           f"boxblur=22:enable='gte(t,{speech_end})',"
           f"drawbox=x=0:y=0:w=iw:h=ih:color=0x141414@0.75:t=fill:enable='gte(t,{speech_end})',"
           f"subtitles={ASS}")
     fc = (f"[0:v]{vf}[v];"
-          f"[0:a]volume=0.22,apad=whole_dur={total:.2f}[amb];[1:a]volume=0.8[m];[2:a]volume=0.6[f];"
+          f"[0:a]{AMB},apad=whole_dur={total:.2f}[amb];[1:a]volume=0.8[m];[2:a]volume=0.6[f];"
           f"[amb][m][f]amix=inputs=3:normalize=0,alimiter=limit=0.9[a]")
     run(["-i", str(joined), "-i", str(TMP / "music.wav"), "-i", str(TMP / "sfx.wav"), "-filter_complex", fc,
          "-map", "[v]", "-map", "[a]", "-t", f"{total:.2f}", "-c:v", "libx264", "-preset", "medium", "-crf", "21",
