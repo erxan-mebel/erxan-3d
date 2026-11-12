@@ -51,22 +51,33 @@ def run(args):
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-threads", "2", *args], check=True)
 
 
+XF = 0.35  # transition length
+TRANSITIONS = ["smoothup", "smoothleft", "zoomin", "slideup", "circleopen", "smoothright", "fade"]
+GRADE = ("eq=contrast=1.10:saturation=1.22:brightness=0.01,"
+         "colorbalance=rs=0.05:bs=-0.05:rm=0.03:bm=-0.03,unsharp=5:5:0.5,vignette=angle=0.55")
+
+
 def main():
     TMP.mkdir(parents=True, exist_ok=True)
-    lst, t, ev, cuts = [], 0.0, [], []
+    parts, ev, starts = [], [], []
+    t = 0.0
     for k, (f, s, e, text) in enumerate(SHOTS):
         d = e - s
+        n = int(round(d * 30))
+        z = f"1+0.07*on/{n}" if k % 2 == 0 else f"1.07-0.07*on/{n}"  # slow push-in / pull-out
         part = TMP / f"shot{k}.mov"
         run(["-ss", f"{s}", "-i", str(SRC / f), "-t", f"{d}",
-             "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,setsar=1,eq=contrast=1.06:saturation=1.12",
+             "-vf", ("scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,setsar=1,"
+                     f"zoompan=z='{z}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,{GRADE}"),
              "-af", "aresample=48000", "-c:v", "libx264", "-preset", "veryfast", "-crf", "16",
              "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", str(part)])
-        lst.append(f"file '{part.resolve()}'")
-        ev.append(f"Dialogue: 1,{ts(t + 0.15)},{ts(t + d - 0.05)},Card,,0,0,0,,{kinetic(text)}")
-        cuts.append(t)
-        t += d
-    speech_end = t
-    total = t + END_CARD
+        parts.append((part, d))
+        starts.append(t)
+        a0 = t + (XF / 2 if k else 0) + 0.1
+        ev.append(f"Dialogue: 1,{ts(a0)},{ts(t + d - XF / 2 - 0.05)},Card,,0,0,0,,{kinetic(text)}")
+        t += d - XF
+    speech_end = t + XF
+    total = speech_end + END_CARD
     e0 = speech_end
     end_lines = [
         (0.1, 600, "Name", "СТО «БУМЕР»"),
@@ -85,6 +96,8 @@ def main():
                 f"\\t({600 + i * 900},{750 + i * 900},\\fscx112\\fscy112)\\t({750 + i * 900},{950 + i * 900},\\fscx100\\fscy100)"
                 for i in range(4)) + "}"
         ev.append(f"Dialogue: 2,{ts(e0 + dt)},{ts(total)},{style},,0,0,0,,{anim}{text}")
+    tick = "МОТОР  •  ХОДОВКА  •  БОЯУ  •  КУЗОВ  •  ЖӨНДЕУ  •  " * 2
+    ev.append(f"Dialogue: 2,{ts(e0 + 0.3)},{ts(total)},Ticker,,0,0,0,,{{\\an4\\move(1080,1600,-1900,1600)}}{tick}")
     head = """[Script Info]
 ScriptType: v4.00+
 PlayResX: 1080
@@ -99,17 +112,29 @@ Style: Master,Inter ExtraBold,64,&H00FFFFFF,&H00FFFFFF,&H00141414,&H00000000,-1,
 Style: Phone,Inter Black,84,&H005B82D9,&H005B82D9,&H00141414,&H00000000,-1,0,0,0,100,100,1,0,1,0,0,5,0,0,0,1
 Style: Cta,Inter ExtraBold,56,&H00141414,&H00141414,&H005B82D9,&H005B82D9,-1,0,0,0,100,100,0,0,3,20,0,5,0,0,0,1
 Style: Svc,Inter ExtraBold,52,&H00FFFFFF,&H00FFFFFF,&H00141414,&H00000000,-1,0,0,0,100,100,3,0,1,0,0,5,0,0,0,1
+Style: Ticker,Inter ExtraBold,46,&H00141414,&H00141414,&H005B82D9,&H005B82D9,-1,0,0,0,100,100,2,0,3,16,0,4,0,0,0,1
 Style: EndSub,Inter SemiBold,58,&H00FFFFFF,&H00FFFFFF,&H00141414,&H00000000,-1,0,0,0,100,100,0,0,1,0,0,5,0,0,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     ASS.write_text(head + "\n".join(ev) + "\n", encoding="utf-8")
-    (TMP / "list.txt").write_text("\n".join(lst) + "\n")
+    ins, fc, prev_v, prev_a, off = [], [], "0:v", "0:a", 0.0
+    for i, (part, d) in enumerate(parts):
+        ins += ["-i", str(part)]
+        if i == 0:
+            off = d - XF
+            continue
+        tr = TRANSITIONS[(i - 1) % len(TRANSITIONS)]
+        fc.append(f"[{prev_v}][{i}:v]xfade=transition={tr}:duration={XF}:offset={off:.3f}[v{i}]")
+        fc.append(f"[{prev_a}][{i}:a]acrossfade=d={XF}[a{i}]")
+        prev_v, prev_a = f"v{i}", f"a{i}"
+        off += d - XF
     joined = TMP / "joined.mov"
-    run(["-f", "concat", "-safe", "0", "-i", str(TMP / "list.txt"), "-c", "copy", str(joined)])
+    run([*ins, "-filter_complex", ";".join(fc), "-map", f"[{prev_v}]", "-map", f"[{prev_a}]",
+         "-c:v", "libx264", "-preset", "veryfast", "-crf", "16", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", str(joined)])
     music(total, TMP / "music.wav", bpm=112, seed=11)
-    sfx([(c, "whoosh") for c in cuts[1:]] + [(speech_end, "whoosh"), (speech_end + 0.5, "pop")], total, TMP / "sfx.wav")
+    sfx([(c, "whoosh") for c in starts[1:]] + [(speech_end, "whoosh"), (speech_end + 0.5, "pop")], total, TMP / "sfx.wav")
     vf = (f"tpad=stop_mode=clone:stop_duration={END_CARD},"
           f"boxblur=22:enable='gte(t,{speech_end})',"
           f"drawbox=x=0:y=0:w=iw:h=ih:color=0x141414@0.75:t=fill:enable='gte(t,{speech_end})',"
