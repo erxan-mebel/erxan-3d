@@ -33,6 +33,20 @@ def ts(x):
     return f"{cs // 360000}:{cs // 6000 % 60:02}:{cs // 100 % 60:02}.{cs % 100:02}"
 
 
+def kinetic(text):
+    """Card slides in from the left, then the words appear one by one."""
+    head = r"{\an2\move(470,1560,540,1560,0,260)\fad(120,120)\fscx92\fscy92\t(0,260,\fscx100\fscy100)}"
+    out, k = [], 0
+    for line in text.split("\\N"):
+        words = []
+        for w in line.split(" "):
+            a, b = 120 + k * 140, 300 + k * 140
+            words.append(f"{{\\1a&HFF&\\t({a},{b},\\1a&H00&)}}{w}")
+            k += 1
+        out.append(" ".join(words))
+    return head + "\\N".join(out)
+
+
 def run(args):
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-threads", "2", *args], check=True)
 
@@ -48,8 +62,7 @@ def main():
              "-af", "aresample=48000", "-c:v", "libx264", "-preset", "veryfast", "-crf", "16",
              "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", str(part)])
         lst.append(f"file '{part.resolve()}'")
-        pop = r"{\an2\pos(540,1560)\fad(120,120)\fscx70\fscy70\t(0,160,\fscx106\fscy106)\t(160,260,\fscx100\fscy100)}"
-        ev.append(f"Dialogue: 1,{ts(t + 0.15)},{ts(t + d - 0.05)},Card,,0,0,0,,{pop}{text}")
+        ev.append(f"Dialogue: 1,{ts(t + 0.15)},{ts(t + d - 0.05)},Card,,0,0,0,,{kinetic(text)}")
         cuts.append(t)
         t += d
     speech_end = t
@@ -66,7 +79,12 @@ def main():
         (1.8, 1420, "Cta", "Машинаңызды сеніп тапсырыңыз"),
     ]
     for dt, y, style, text in end_lines:
-        ev.append(f"Dialogue: 2,{ts(e0 + dt)},{ts(total)},{style},,0,0,0,,{{\\an5\\pos(540,{y})\\fad(200,0)}}{text}")
+        anim = f"{{\\an5\\move(540,{y + 70},540,{y},0,320)\\fad(220,0)}}"
+        if style == "Phone":  # heartbeat pulse
+            anim = anim[:-1] + "".join(
+                f"\\t({600 + i * 900},{750 + i * 900},\\fscx112\\fscy112)\\t({750 + i * 900},{950 + i * 900},\\fscx100\\fscy100)"
+                for i in range(4)) + "}"
+        ev.append(f"Dialogue: 2,{ts(e0 + dt)},{ts(total)},{style},,0,0,0,,{anim}{text}")
     head = """[Script Info]
 ScriptType: v4.00+
 PlayResX: 1080
