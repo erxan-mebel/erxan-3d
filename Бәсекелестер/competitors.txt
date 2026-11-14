@@ -1,5 +1,9 @@
-# Бәсекелестердің Instagram аккаунттары — әр жолға бір аккаунт (@ белгісіз де болады).
-# Мысал (DEMO үшін ғана — нақты аккаунттарыңызбен ауыстырыңыз):
-demo_mebel_astana
-demo_kuhni_almaty
-demo_shkaf_kz
+# Бәсекелестердің Instagram аккаунттары — әр жолға бір аккаунт.
+moyshkaf
+mebel.kulsary
+dyzenkov
+alaarte_kz
+yaltamebel
+ele.mebel
+qambar_jihaz
+# alexandr.pak...  — толық атын анықтау керек
