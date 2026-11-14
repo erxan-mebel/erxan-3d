@@ -6,4 +6,4 @@ alaarte_kz
 yaltamebel
 ele.mebel
 qambar_jihaz
-# alexandr.pak...  — толық атын анықтау керек
+alexandr.pakshubin
