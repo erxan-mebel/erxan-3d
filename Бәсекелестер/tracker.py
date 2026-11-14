@@ -45,7 +45,7 @@ def load_competitors():
 
 def fetch(username):
     ver = os.environ.get("GRAPH_VERSION", "v27.0")
-    uid = os.environ["IG_USER_ID"]
+    uid = os.environ.get("IG_USER_ID", "17841462847161597")  # @erxan_mebel
     q = urllib.parse.urlencode({"fields": f"business_discovery.username({username}){{{FIELDS}}}"})
     req = urllib.request.Request(f"https://graph.facebook.com/{ver}/{uid}?{q}")
     req.add_header("Authorization", f"Bearer {os.environ.get('IG_TOKEN', 'proxy-injects-token')}")
