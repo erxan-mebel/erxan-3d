@@ -29,7 +29,8 @@ Remotion needs a paid company license for some businesses; see the `remotion-lic
 - Never keep off-topic talk or swearing from the background; mute it.
 - Default build for footage reels: HyperFrames, in the style of `Монтаж/work/reel_04_hf` (animated icon cards in the lower part of the safe band, white flash on cuts, animated end card with services, contacts and a pulsing phone button). Don't fall back to a plain FFmpeg edit unless asked.
 - Before building, ask once for anything the end card needs (name, phone, address, services) if it is missing.
-- Deliver a no-music version plus music versions (energetic, dombra) in one go.
-- Card sound effects stay quiet (about 0.3 of the voice level); music under the voice at about 0.35.
+- Deliver only the no-music version by default (the user adds music in Instagram); make music versions only on request.
+- No card sound effects unless asked; keep the screen uncluttered (no icon cards over reference footage).
+- Reaction/разбор reels over someone else's footage: blur the original burned-in text and put the user's own words there as plain white captions.
 - Face circle / picture-in-picture: frame from the hair line down to the chest, never a tight face crop.
 - Whenever the user states a new preference, add it to this list.
