@@ -1,11 +1,11 @@
 # Бәсекелестер: атып кеткен видеолар
-_Жаңартылды: 2026-11-14 17:30 UTC_
+_Жаңартылды: 2026-11-14 17:44 UTC_
 
 «Атып кетті» = аккаунттың әдеттегі деңгейінен 3 есе жоғары (лайк + 3×пікір).
 
 | Аккаунт | Күні | Түрі | Лайк | Пікір | Әдеттегіден | Сілтеме | Мәтіні |
 |---|---|---|---|---|---|---|---|
-| @mebel.kulsary | 2026-10-15 | REELS | 16286 | 782 | ×114.7 | [ашу](https://www.instagram.com/reel/DegOg5Fo9af/) |  |
+| @mebel.kulsary | 2026-10-15 | REELS | 16288 | 782 | ×114.7 | [ашу](https://www.instagram.com/reel/DegOg5Fo9af/) |  |
 | @yaltamebel | 2026-07-27 | REELS | 485 | 123 | ×50.2 | [ашу](https://www.instagram.com/reel/DbSU_7FMTXt/) | Тишина — это тоже показатель качества мебели 🤫 ⠀ При заказе мебели обязательно уточняйте, используются ли врезные демпферы. ⠀ ✅ Именно врезн |
 | @dyzenkov | 2026-10-09 | FEED | 2714 | 114 | ×47.0 | [ашу](https://www.instagram.com/p/DeRYqUmDas8/) |  |
 | @qambar_jihaz | 2026-09-04 | REELS | 804 | 4 | ×42.9 | [ашу](https://www.instagram.com/reel/Dc3jSwBuSLH/) | Когда даже гладильная доска становится частью мебели. 🙌🏻😌  Мы предусмотрели её хранение прямо внутри шкафа, чтобы она всегда была под рукой, |
@@ -16,13 +16,13 @@ _Жаңартылды: 2026-11-14 17:30 UTC_
 | @dyzenkov | 2026-10-14 | REELS | 1078 | 105 | ×21.4 | [ашу](https://www.instagram.com/reel/DeerF5zNthe/) | Рынок мебели на заказ в России существует только по одной причине — у нас дешёвая рабочая сила.  Два месяца хождений вокруг клиента, подбор  |
 | @alaarte_kz | 2026-06-22 | REELS | 1573 | 38 | ×21.2 | [ашу](https://www.instagram.com/reel/DZ5GJo4I6CL/) | Егер сізге статус пен сапа маңызды болса — парақшамызға тіркеліңіз,  лайк басыңыз, осы видеоны жиһаз іздеп жүргендерге жіберіңіз Мекен жайым |
 | @alaarte_kz | 2026-06-29 | REELS | 1129 | 86 | ×17.4 | [ашу](https://www.instagram.com/reel/DaK4x1Fom8Q/) | Үйіңізге дәл сәйкес келетін жиһаз жасағыңыз келе ме? Direct-ке жазыңыз, тегін кеңес береміз  Біздің мекен жайымыз: Жанша Досмұхамедов көшесі |
-| @alexandr.pakshubin | 2026-11-10 | REELS | 1713 | 287 | ×16.4 | [ашу](https://www.instagram.com/reel/DfkdOmIxe2e/) |  |
+| @alexandr.pakshubin | 2026-11-10 | REELS | 1715 | 287 | ×16.4 | [ашу](https://www.instagram.com/reel/DfkdOmIxe2e/) |  |
 | @ele.mebel | 2026-10-13 | REELS | 694 | 109 | ×15.1 | [ашу](https://www.instagram.com/reel/Dea5a9VjXve/) | Шкаф с вытяжкой — на три фасада. Зачем так делать? 👀  Чтобы сохранить одинаковую ширину верхних фасадов и при этом расположить вытяжку ровно |
 | @ele.mebel | 2026-08-29 | REELS | 777 | 30 | ×12.8 | [ашу](https://www.instagram.com/reel/DcomyAyj7RE/) | В этом рилс я собрала шесть сочетаний декоров EGGER. Здесь есть и нейтральные варианты, и более смелые цветовые решения.  H1369 ST40 Дуб Кас |
 | @moyshkaf | 2026-08-25 | REELS | 945 | 23 | ×12.6 | [ашу](https://www.instagram.com/reel/DcdzS54A4vj/) | Кухня, в которой хочется проводить время 🤍 Минималистичный дизайн, продуманное хранение и всё на своих местах✨ |
 | @dyzenkov | 2026-09-28 | FEED | 621 | 44 | ×11.6 | [ашу](https://www.instagram.com/p/Dd1JzyDjYWA/) | Вот такие вот дела, собачка. |
 | @dyzenkov | 2026-10-21 | FEED | 665 | 28 | ×11.5 | [ашу](https://www.instagram.com/p/DewVBSdjZvY/) |  |
-| @alexandr.pakshubin | 2026-10-23 | REELS | 1335 | 51 | ×9.5 | [ашу](https://www.instagram.com/reel/De2RdLeRnWJ/) |  |
+| @alexandr.pakshubin | 2026-10-23 | REELS | 1336 | 51 | ×9.5 | [ашу](https://www.instagram.com/reel/De2RdLeRnWJ/) |  |
 | @mebel.kulsary | 2026-10-09 | REELS | 1373 | 41 | ×9.2 | [ашу](https://www.instagram.com/reel/DeRkbYsopmK/) | Бастықсыз түсірген видео  неше млн просмотр жинайды екен😅 |
 | @ele.mebel | 2026-09-02 | REELS | 533 | 27 | ×9.1 | [ашу](https://www.instagram.com/reel/DcyS55aCQ2b/) | Если невстраиваемый холодильник ставим в мебельную нишу, просто оставить его заподлицо с фасадами нельзя.  У большинства моделей дверка при  |
 | @mebel.kulsary | 2026-10-06 | REELS | 1262 | 39 | ×8.5 | [ашу](https://www.instagram.com/reel/DeJz8tUoYIm/) |  |
@@ -46,7 +46,7 @@ _Жаңартылды: 2026-11-14 17:30 UTC_
 | @qambar_jihaz | 2026-08-13 | REELS | 56 | 9 | ×4.4 | [ашу](https://www.instagram.com/reel/Db-0jO-MpbJ/) | Что можно реализовать на 20 000 000 ₸? Показываем на примере этого проекта. ЖК Centrium 🔥   Здесь мы полностью укомплектовали квартиру мебел |
 | @moyshkaf | 2026-06-29 | REELS | 336 | 3 | ×4.3 | [ашу](https://www.instagram.com/reel/DaLCjnHM_pW/) | Эстетика в каждой детали🤍 Кухня, которая будет радовать каждый день✨ Дизайнер albina_architect 🤍 |
 | @dyzenkov | 2026-09-30 | FEED | 251 | 9 | ×4.3 | [ашу](https://www.instagram.com/p/Dd6IlrWjcoD/) | Менеджер считает кухню три дня, потому что ты сказал «как будет время». У этой ошибки есть имя — закон Паркинсона.  Разобрал 5 ошибок руково |
-| @mebel.kulsary | 2026-10-28 | REELS | 605 | 26 | ×4.2 | [ашу](https://www.instagram.com/reel/DfC_x1YIrdw/) |  |
+| @mebel.kulsary | 2026-10-28 | REELS | 606 | 26 | ×4.2 | [ашу](https://www.instagram.com/reel/DfC_x1YIrdw/) |  |
 | @moyshkaf | 2026-09-11 | REELS | 300 | 10 | ×4.1 | [ашу](https://www.instagram.com/reel/DdImFcdsjO9/) | Мебельная компания «МойШкаф» ✨ |
 | @dyzenkov | 2026-10-30 | REELS | 216 | 15 | ×4.0 | [ашу](https://www.instagram.com/reel/DfHeGCftNbR/) | Возможностей заработать на мебельном рынке как раньше не будет. Рынок изменился, старые инструменты перестали работать, а что из новых работ |
 | @mebel.kulsary | 2026-11-01 | REELS | 360 | 93 | ×3.9 | [ашу](https://www.instagram.com/reel/DfM-nQ7oRG8/) | Кім біледі. Астына белгілеп кетіңіздер |
