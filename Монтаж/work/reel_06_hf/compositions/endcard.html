@@ -1,0 +1,36 @@
+<template>
+  <style>
+    @font-face { font-family: "InterK"; font-weight: 600; src: url("assets/fonts/Inter-SemiBold.otf"); }
+    @font-face { font-family: "InterK"; font-weight: 900; src: url("assets/fonts/Inter-Black.otf"); }
+    #root { position: absolute; inset: 0; font-family: "InterK", sans-serif; color: #fff; overflow: hidden; }
+    #n-bg { position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, #3a2418 0%, #161311 55%, #0f0d0c 100%); }
+    #n-stripes { position: absolute; left: -400px; top: 0; width: 1880px; height: 1920px; opacity: 0.07;
+      background: repeating-linear-gradient(-45deg, #d9825b 0 26px, transparent 26px 70px); }
+    #n-name { position: absolute; left: 0; right: 0; top: 520px; text-align: center; font-weight: 900; font-size: 124px; letter-spacing: 6px; }
+    #n-name span { color: #d9825b; }
+    #n-sub { position: absolute; left: 0; right: 0; top: 690px; text-align: center; font-weight: 600; font-size: 54px; color: #e6d7cc; }
+    #n-list { position: absolute; left: 0; right: 0; top: 800px; text-align: center; font-weight: 900; font-size: 46px; color: #d9825b; letter-spacing: 2px; }
+    #n-cta { position: absolute; left: 190px; top: 960px; width: 700px; height: 116px; border-radius: 58px; background: #d9825b;
+      color: #141414; font-weight: 900; font-size: 56px; display: flex; align-items: center; justify-content: center; }
+  </style>
+  <div id="root" data-composition-id="endcard" data-width="1080" data-height="1920">
+    <div id="n-bg"></div>
+    <div id="n-stripes"></div>
+    <div id="n-name">ERXAN <span>MEBEL</span></div>
+    <div id="n-sub">Тапсырыс бойынша жиһаз</div>
+    <div id="n-list">КУХНЯ · ШКАФ · ГАРДЕРОБ · ТУМБА</div>
+    <div id="n-cta">Директке жазыңыз</div>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#n-bg", { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0);
+    tl.fromTo("#n-stripes", { x: 0 }, { x: 200, duration: 3, ease: "none" }, 0);
+    tl.fromTo("#n-name", { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "power4.out" }, 0.15);
+    tl.fromTo("#n-sub", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.45);
+    tl.fromTo("#n-list", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.65);
+    tl.fromTo("#n-cta", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)" }, 0.9);
+    tl.to("#n-cta", { scale: 1.07, duration: 0.3, yoyo: true, repeat: 3, ease: "sine.inOut" }, 1.4);
+    window.__timelines["endcard"] = tl;
+  </script>
+</template>
