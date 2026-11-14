@@ -10,7 +10,7 @@ Auth: the token is never stored here. In the cloud session the network proxy add
 Environment:
   IG_USER_ID      your own Instagram professional account id (required)
   IG_TOKEN        optional, only when the proxy does not inject the token
-  GRAPH_VERSION   default v23.0
+  GRAPH_VERSION   default v27.0
 
 Usage:
   python3 Бәсекелестер/tracker.py           # real run
@@ -44,7 +44,7 @@ def load_competitors():
 
 
 def fetch(username):
-    ver = os.environ.get("GRAPH_VERSION", "v23.0")
+    ver = os.environ.get("GRAPH_VERSION", "v27.0")
     uid = os.environ["IG_USER_ID"]
     q = urllib.parse.urlencode({"fields": f"business_discovery.username({username}){{{FIELDS}}}"})
     req = urllib.request.Request(f"https://graph.facebook.com/{ver}/{uid}?{q}")
