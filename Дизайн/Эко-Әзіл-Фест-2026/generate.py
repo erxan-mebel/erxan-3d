@@ -225,4 +225,5 @@ async def main():
             for t in pdfs: t.unlink()
         await b.close()
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
