@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="kk"><head><meta charset="UTF-8"><meta name="viewport" content="width=1080, height=1920">
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face { font-family:"InterK"; font-weight:600; src:url("assets/fonts/Inter-SemiBold.otf"); }
+@font-face { font-family:"InterK"; font-weight:800; src:url("assets/fonts/Inter-ExtraBold.otf"); }
+@font-face { font-family:"InterK"; font-weight:900; src:url("assets/fonts/Inter-Black.otf"); }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1080px; height:1920px; overflow:hidden; background:#141414; }
+#root { position:relative; width:100%; height:100%; font-family:"InterK",sans-serif; }
+#main { position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; }
+.cap { position:absolute; left:60px; right:150px; top:1350px; height:150px; display:flex; align-items:center; justify-content:center; }
+.cap-in { text-align:center; font-weight:900; font-size:56px; line-height:1.15; color:#fff;
+  text-shadow:0 4px 0 #141414, 0 0 14px rgba(0,0,0,.85), 3px 0 0 #141414, -3px 0 0 #141414; }
+.card { position:absolute; left:50px; right:150px; top:1195px; height:150px; }
+.card-in { display:inline-flex; align-items:center; gap:22px; padding:14px 30px 14px 14px; border-radius:26px;
+  background:rgba(20,20,20,.86); border-left:10px solid #d9825b; }
+.ic { flex:0 0 104px; height:104px; border-radius:50%; background:#d9825b; display:flex; align-items:center; justify-content:center; }
+.l1 { font-weight:600; font-size:38px; color:#f0e4dc; } .l2 { font-weight:900; font-size:52px; color:#fff; }
+#end { position:absolute; inset:0; }
+#e-bg { position:absolute; inset:0; background:radial-gradient(circle at 50% 40%, #3a2418 0%, #161311 55%, #0f0d0c 100%); }
+#e-name { position:absolute; left:0; right:0; top:560px; text-align:center; font-weight:900; font-size:124px; letter-spacing:6px; color:#fff; }
+#e-name span { color:#d9825b; }
+#e-sub { position:absolute; left:0; right:0; top:730px; text-align:center; font-weight:600; font-size:54px; color:#e6d7cc; }
+#e-list { position:absolute; left:0; right:0; top:840px; text-align:center; font-weight:900; font-size:44px; color:#d9825b; letter-spacing:2px; }
+#e-cta { position:absolute; left:190px; top:980px; width:700px; height:116px; border-radius:58px; background:#d9825b; color:#141414;
+  font-weight:900; font-size:56px; display:flex; align-items:center; justify-content:center; }
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="48.2" data-width="1080" data-height="1920">
+<video id="main" class="clip" src="assets/video/main.mp4" data-start="0" data-duration="44.8" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:1"></video>
+<div id="c0" class="clip cap" data-start="0.0" data-duration="3.45" data-track-index="2" style="z-index:30"><div id="c0-in" class="cap-in">Мебельшіге мебель заказ береді,</div></div>
+<div id="c1" class="clip cap" data-start="3.55" data-duration="2.60" data-track-index="2" style="z-index:30"><div id="c1-in" class="cap-in">бірақ көбісі осы қателікті жасайды.</div></div>
+<div id="c2" class="clip cap" data-start="6.2" data-duration="3.85" data-track-index="2" style="z-index:30"><div id="c2-in" class="cap-in">Біз замерге барамыз, өлшемін алғаннан кейін</div></div>
+<div id="c3" class="clip cap" data-start="10.05" data-duration="4.40" data-track-index="2" style="z-index:30"><div id="c3-in" class="cap-in">бағамызды айтқанда, клиенттер оны қымбат деп ойлайды.</div></div>
+<div id="c4" class="clip cap" data-start="14.5" data-duration="1.45" data-track-index="2" style="z-index:30"><div id="c4-in" class="cap-in">Бұл — нарықтың бағасы.</div></div>
+<div id="c5" class="clip cap" data-start="16.1" data-duration="5.15" data-track-index="2" style="z-index:30"><div id="c5-in" class="cap-in">Сосын олар арзанға береді — мебелі уақытылы келмейді, сапасыз жасалады.</div></div>
+<div id="c6" class="clip cap" data-start="23.75" data-duration="3.05" data-track-index="2" style="z-index:30"><div id="c6-in" class="cap-in">Соңынан желіге жазады: «Мебельші мені алдап кетті» деп.</div></div>
+<div id="c7" class="clip cap" data-start="26.85" data-duration="3.20" data-track-index="2" style="z-index:30"><div id="c7-in" class="cap-in">Мебельге заказ беретін болсаңыз,</div></div>
+<div id="c8" class="clip cap" data-start="30.05" data-duration="2.65" data-track-index="2" style="z-index:30"><div id="c8-in" class="cap-in">жақсы маман, жақсы фирма таба білсеңіз,</div></div>
+<div id="c9" class="clip cap" data-start="32.7" data-duration="4.70" data-track-index="2" style="z-index:30"><div id="c9-in" class="cap-in">мебеліңіз уақытылы, сапалы, жауапкершілікпен жасалады.</div></div>
+<div id="c10" class="clip cap" data-start="37.5" data-duration="4.20" data-track-index="2" style="z-index:30"><div id="c10-in" class="cap-in">Сондықтан мебельдің бағасына емес,</div></div>
+<div id="c11" class="clip cap" data-start="41.8" data-duration="2.95" data-track-index="2" style="z-index:30"><div id="c11-in" class="cap-in">жауапкершілігі мен сапасына мән беріңіздер.</div></div>
+<div id="k0" class="clip card" data-start="3.45" data-duration="2.70" data-track-index="3" style="z-index:20"><div id="k0-in" class="card-in"><div id="k0-ic" class="ic"><svg id="k0-svg" viewBox="0 0 64 64" width="78" height="78"><path d="M32 6 60 56H4z" fill="none" stroke="#141414" stroke-width="5" stroke-linejoin="round"/><rect x="29" y="22" width="6" height="18" rx="3" fill="#141414"/><circle cx="32" cy="47" r="3.5" fill="#141414"/></svg></div><div class="tx"><div class="l1">Көп адам жасайтын</div><div class="l2">1 ҚАТЕЛІК</div></div></div></div>
+<div id="k1" class="clip card" data-start="14.35" data-duration="1.70" data-track-index="3" style="z-index:20"><div id="k1-in" class="card-in"><div id="k1-ic" class="ic"><svg id="k1-svg" viewBox="0 0 64 64" width="78" height="78"><path d="M8 32 32 8h22v22L30 54z" fill="none" stroke="#141414" stroke-width="5" stroke-linejoin="round"/><circle cx="44" cy="20" r="4" fill="#141414"/></svg></div><div class="tx"><div class="l1">Бұл —</div><div class="l2">нарықтың бағасы</div></div></div></div>
+<div id="k2" class="clip card" data-start="16.15" data-duration="7.55" data-track-index="3" style="z-index:20"><div id="k2-in" class="card-in"><div id="k2-ic" class="ic"><svg id="k2-svg" viewBox="0 0 64 64" width="78" height="78"><circle cx="32" cy="32" r="24" fill="none" stroke="#141414" stroke-width="5"/><path d="M32 18v15l10 6" stroke="#141414" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div><div class="tx"><div class="l1">Арзан мебель =</div><div class="l2">кешігу · сапасыз</div></div></div></div>
+<div id="k3" class="clip card" data-start="23.8" data-duration="3.00" data-track-index="3" style="z-index:20"><div id="k3-in" class="card-in"><div id="k3-ic" class="ic"><svg id="k3-svg" viewBox="0 0 64 64" width="78" height="78"><path d="M10 12h44a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4H26l-12 10V44h-4a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z" fill="none" stroke="#141414" stroke-width="5"/><path d="M24 24l16 12M40 24 24 36" stroke="#141414" stroke-width="5" stroke-linecap="round"/></svg></div><div class="tx"><div class="l1">Соңынан:</div><div class="l2">«алдап кетті»</div></div></div></div>
+<div id="k4" class="clip card" data-start="37.5" data-duration="7.25" data-track-index="3" style="z-index:20"><div id="k4-in" class="card-in"><div id="k4-ic" class="ic"><svg id="k4-svg" viewBox="0 0 64 64" width="78" height="78"><path d="M32 6l7.6 16 17.4 2.2-12.8 12 3.3 17.3L32 45l-15.5 8.5L19.8 36 7 24.2 24.4 22z" fill="#141414"/></svg></div><div class="tx"><div class="l1">Бағаға емес —</div><div class="l2">сапаға қараңыз</div></div></div></div>
+<div id="end" class="clip" data-start="44.8" data-duration="3.4" data-track-index="4" style="z-index:40">
+  <div id="e-bg"></div>
+  <div id="e-name">ERXAN <span>MEBEL</span></div>
+  <div id="e-sub">Уақытылы · сапалы · жауапкершілікпен</div>
+  <div id="e-list">КУХНЯ · ШКАФ · ГАРДЕРОБ</div>
+  <div id="e-cta">Директке жазыңыз</div>
+</div>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused:true });
+tl.fromTo("#c0-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},0.0);
+tl.fromTo("#c1-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},3.55);
+tl.fromTo("#c2-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},6.2);
+tl.fromTo("#c3-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},10.05);
+tl.fromTo("#c4-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},14.5);
+tl.fromTo("#c5-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},16.1);
+tl.fromTo("#c6-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},23.75);
+tl.fromTo("#c7-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},26.85);
+tl.fromTo("#c8-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},30.05);
+tl.fromTo("#c9-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},32.7);
+tl.fromTo("#c10-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},37.5);
+tl.fromTo("#c11-in",{y:14,opacity:0},{y:0,opacity:1,duration:.16,ease:"power2.out"},41.8);
+tl.fromTo("#k0-in",{x:-120,opacity:0},{x:0,opacity:1,duration:.4,ease:"back.out(1.7)"},3.45);
+tl.fromTo("#k0-ic",{scale:0,rotation:-120},{scale:1,rotation:0,duration:.4,ease:"back.out(2)"},3.53);
+tl.to("#k0-in",{opacity:0,x:50,duration:.22,ease:"power2.in"},5.89);
+tl.fromTo("#k0-svg",{scale:1},{scale:1.15,duration:.25,yoyo:true,repeat:3,ease:"sine.inOut",transformOrigin:"50% 50%"},3.95);
+tl.fromTo("#k1-in",{x:-120,opacity:0},{x:0,opacity:1,duration:.4,ease:"back.out(1.7)"},14.35);
+tl.fromTo("#k1-ic",{scale:0,rotation:-120},{scale:1,rotation:0,duration:.4,ease:"back.out(2)"},14.43);
+tl.to("#k1-in",{opacity:0,x:50,duration:.22,ease:"power2.in"},15.79);
+tl.fromTo("#k2-in",{x:-120,opacity:0},{x:0,opacity:1,duration:.4,ease:"back.out(1.7)"},16.15);
+tl.fromTo("#k2-ic",{scale:0,rotation:-120},{scale:1,rotation:0,duration:.4,ease:"back.out(2)"},16.23);
+tl.to("#k2-in",{opacity:0,x:50,duration:.22,ease:"power2.in"},23.44);
+tl.fromTo("#k2-svg",{rotation:-10},{rotation:10,duration:.12,yoyo:true,repeat:7,ease:"sine.inOut",transformOrigin:"50% 50%"},16.65);
+tl.fromTo("#k3-in",{x:-120,opacity:0},{x:0,opacity:1,duration:.4,ease:"back.out(1.7)"},23.8);
+tl.fromTo("#k3-ic",{scale:0,rotation:-120},{scale:1,rotation:0,duration:.4,ease:"back.out(2)"},23.88);
+tl.to("#k3-in",{opacity:0,x:50,duration:.22,ease:"power2.in"},26.54);
+tl.fromTo("#k3-svg",{rotation:-10},{rotation:10,duration:.12,yoyo:true,repeat:7,ease:"sine.inOut",transformOrigin:"50% 50%"},24.30);
+tl.fromTo("#k4-in",{x:-120,opacity:0},{x:0,opacity:1,duration:.4,ease:"back.out(1.7)"},37.5);
+tl.fromTo("#k4-ic",{scale:0,rotation:-120},{scale:1,rotation:0,duration:.4,ease:"back.out(2)"},37.58);
+tl.to("#k4-in",{opacity:0,x:50,duration:.22,ease:"power2.in"},44.49);
+tl.fromTo("#k4-svg",{scale:1},{scale:1.15,duration:.25,yoyo:true,repeat:3,ease:"sine.inOut",transformOrigin:"50% 50%"},38.00);
+tl.fromTo("#e-bg",{opacity:0},{opacity:1,duration:.3},44.8);
+tl.fromTo("#e-name",{scale:1.5,opacity:0},{scale:1,opacity:1,duration:.45,ease:"power4.out"},44.949999999999996);
+tl.fromTo("#e-sub",{y:40,opacity:0},{y:0,opacity:1,duration:.4,ease:"power3.out"},45.25);
+tl.fromTo("#e-list",{y:40,opacity:0},{y:0,opacity:1,duration:.4,ease:"power3.out"},45.449999999999996);
+tl.fromTo("#e-cta",{scale:.6,opacity:0},{scale:1,opacity:1,duration:.45,ease:"back.out(2)"},45.699999999999996);
+tl.to("#e-cta",{scale:1.07,duration:.3,yoyo:true,repeat:3,ease:"sine.inOut"},46.199999999999996);
+window.__timelines["main"] = tl;
+</script>
+</body></html>
