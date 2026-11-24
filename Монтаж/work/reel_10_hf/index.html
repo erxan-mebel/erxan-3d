@@ -9,6 +9,7 @@
 html, body { width:1080px; height:1920px; overflow:hidden; background:#141414; }
 #root { position:relative; width:100%; height:100%; font-family:"InterK",sans-serif; overflow:hidden; }
 .ph { position:absolute; inset:0; overflow:hidden; }
+.hl { position:absolute; left:0; top:0; }
 .ph-in { position:absolute; inset:0; background-size:cover; background-repeat:no-repeat; }
 #shade { position:absolute; left:0; right:0; bottom:0; height:900px; z-index:20;
   background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,.6) 100%); }
@@ -16,10 +17,10 @@ html, body { width:1080px; height:1920px; overflow:hidden; background:#141414; }
 #title-in { display:inline-block; font-weight:900; font-size:54px; color:#fff; letter-spacing:1px; padding:10px 28px; border-radius:16px;
   background:rgba(20,20,20,.55); }
 #title-in b { color:#f1c232; }
-.mark { position:absolute; left:0; right:0; top:820px; height:160px; display:flex; justify-content:center; }
+.mark { position:absolute; left:50px; top:220px; width:160px; height:160px; }
 .mark-in { width:150px; height:150px; border-radius:30px; display:flex; align-items:center; justify-content:center; box-shadow:0 10px 30px rgba(0,0,0,.35); }
 .mark-in.bad { background:#d9342b; } .mark-in.good { background:#2f9e55; }
-.cap { position:absolute; left:60px; right:150px; top:1110px; height:180px; display:flex; align-items:center; justify-content:center; }
+.cap { position:absolute; left:60px; right:150px; top:1330px; height:180px; display:flex; align-items:center; justify-content:center; }
 .cap-in { display:flex; align-items:center; gap:22px; font-weight:900; font-size:62px; line-height:1.1; color:#fff; text-align:left;
   text-shadow:0 4px 0 #141414, 0 0 16px rgba(0,0,0,.8); }
 .num { flex:0 0 84px; height:84px; border-radius:50%; background:#d9342b; display:flex; align-items:center; justify-content:center;
@@ -38,27 +39,26 @@ html, body { width:1080px; height:1920px; overflow:hidden; background:#141414; }
 </style></head>
 <body>
 <div id="root" data-composition-id="main" data-start="0" data-duration="18.6" data-width="1080" data-height="1920">
-<div id="b1" class="clip ph" data-start="0.00" data-duration="4.20" data-track-index="0" style="z-index:1"><div id="b1-in" class="ph-in" style="background-image:url(assets/img/1_bad.jpg);background-position:50% 50%"></div></div>
-<div id="g1" class="clip ph" data-start="3.80" data-duration="2.80" data-track-index="1" style="z-index:2"><div id="g1-in" class="ph-in" style="background-image:url(assets/img/1_good.jpg);background-position:50% 60%"></div></div>
+<div id="b1" class="clip ph" data-start="0.00" data-duration="4.20" data-track-index="0" style="z-index:1"><div id="b1-in" class="ph-in" style="background-image:url(assets/img/1_bad.jpg);background-position:50% 50%"></div><svg class="hl" viewBox="0 0 1080 1920" width="1080" height="1920"><g transform="rotate(-28 564 840)"><ellipse id="h1_bad" cx="564" cy="840" rx="130.0" ry="450.0" fill="none" stroke="#ff3b30" stroke-width="12" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-linecap="round"/></g></svg></div>
+<div id="g1" class="clip ph" data-start="3.80" data-duration="2.80" data-track-index="1" style="z-index:2"><div id="g1-in" class="ph-in" style="background-image:url(assets/img/1_good.jpg);background-position:50% 60%"></div><svg class="hl" viewBox="0 0 1080 1920" width="1080" height="1920"><g transform="rotate(-6 540 1000)"><ellipse id="h1_good" cx="540" cy="1000" rx="550.0" ry="75.0" fill="none" stroke="#34c759" stroke-width="12" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-linecap="round"/></g></svg></div>
 <div id="x1" class="clip mark" data-start="1.90" data-duration="1.95" data-track-index="2" style="z-index:30"><div id="x1-in" class="mark-in bad"><svg viewBox="0 0 100 100" width="120" height="120"><path d="M20 20 80 80M80 20 20 80" stroke="#fff" stroke-width="14" stroke-linecap="round" fill="none"/></svg></div></div>
 <div id="v1" class="clip mark" data-start="4.10" data-duration="1.95" data-track-index="2" style="z-index:30"><div id="v1-in" class="mark-in good"><svg viewBox="0 0 100 100" width="120" height="120"><path id="v1-p" d="M18 54 40 76 84 26" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="110" stroke-dashoffset="110"/></svg></div></div>
 <div id="cb1" class="clip cap" data-start="1.90" data-duration="1.95" data-track-index="3" style="z-index:31"><div id="cb1-in" class="cap-in"><span class="num">1</span>Үстелге плинтус</div></div>
 <div id="cg1" class="clip cap" data-start="4.10" data-duration="1.95" data-track-index="3" style="z-index:31"><div id="cg1-in" class="cap-in"><span class="num ok">1</span>Кафель тура үстелге</div></div>
-<div id="b2" class="clip ph" data-start="5.85" data-duration="2.95" data-track-index="0" style="z-index:3"><div id="b2-in" class="ph-in" style="background-image:url(assets/img/2_bad.jpg);background-position:50% 60%"></div></div>
-<div id="g2" class="clip ph" data-start="8.40" data-duration="2.80" data-track-index="1" style="z-index:4"><div id="g2-in" class="ph-in" style="background-image:url(assets/img/2_good.jpg);background-position:22% 50%"></div></div>
+<div id="b2" class="clip ph" data-start="5.85" data-duration="2.95" data-track-index="0" style="z-index:3"><div id="b2-in" class="ph-in" style="background-image:url(assets/img/2_bad.jpg);background-position:50% 60%"></div><svg class="hl" viewBox="0 0 1080 1920" width="1080" height="1920"><g transform="rotate(3 528 1120)"><ellipse id="h2_bad" cx="528" cy="1120" rx="490.0" ry="65.0" fill="none" stroke="#ff3b30" stroke-width="12" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-linecap="round"/></g></svg></div>
+<div id="g2" class="clip ph" data-start="8.40" data-duration="2.80" data-track-index="1" style="z-index:4"><div id="g2-in" class="ph-in" style="background-image:url(assets/img/2_good.jpg);background-position:22% 50%"></div><svg class="hl" viewBox="0 0 1080 1920" width="1080" height="1920"><g transform="rotate(2 600 1070)"><ellipse id="h2_good" cx="600" cy="1070" rx="525.0" ry="60.0" fill="none" stroke="#34c759" stroke-width="12" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-linecap="round"/></g></svg></div>
 <div id="x2" class="clip mark" data-start="6.50" data-duration="1.95" data-track-index="2" style="z-index:30"><div id="x2-in" class="mark-in bad"><svg viewBox="0 0 100 100" width="120" height="120"><path d="M20 20 80 80M80 20 20 80" stroke="#fff" stroke-width="14" stroke-linecap="round" fill="none"/></svg></div></div>
 <div id="v2" class="clip mark" data-start="8.70" data-duration="1.95" data-track-index="2" style="z-index:30"><div id="v2-in" class="mark-in good"><svg viewBox="0 0 100 100" width="120" height="120"><path id="v2-p" d="M18 54 40 76 84 26" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="110" stroke-dashoffset="110"/></svg></div></div>
 <div id="cb2" class="clip cap" data-start="6.50" data-duration="1.95" data-track-index="3" style="z-index:31"><div id="cb2-in" class="cap-in"><span class="num">2</span>Үстінен салынған мойка</div></div>
 <div id="cg2" class="clip cap" data-start="8.70" data-duration="1.95" data-track-index="3" style="z-index:31"><div id="cg2-in" class="cap-in"><span class="num ok">2</span>Астынан орнатылған мойка</div></div>
-<div id="b3" class="clip ph" data-start="10.45" data-duration="2.95" data-track-index="0" style="z-index:5"><div id="b3-in" class="ph-in" style="background-image:url(assets/img/3_bad.jpg);background-position:50% 45%"></div></div>
-<div id="g3" class="clip ph" data-start="13.00" data-duration="2.80" data-track-index="1" style="z-index:6"><div id="g3-in" class="ph-in" style="background-image:url(assets/img/3_good.jpg);background-position:50% 40%"></div></div>
+<div id="b3" class="clip ph" data-start="10.45" data-duration="2.95" data-track-index="0" style="z-index:5"><div id="b3-in" class="ph-in" style="background-image:url(assets/img/3_bad.jpg);background-position:50% 45%"></div><svg class="hl" viewBox="0 0 1080 1920" width="1080" height="1920"><g transform="rotate(0 375 560)"><ellipse id="h3_bad" cx="375" cy="560" rx="390.0" ry="75.0" fill="none" stroke="#ff3b30" stroke-width="12" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-linecap="round"/></g></svg></div>
+<div id="g3" class="clip ph" data-start="13.00" data-duration="2.80" data-track-index="1" style="z-index:6"><div id="g3-in" class="ph-in" style="background-image:url(assets/img/3_good.jpg);background-position:50% 40%"></div><svg class="hl" viewBox="0 0 1080 1920" width="1080" height="1920"><g transform="rotate(4 540 250)"><ellipse id="h3_good" cx="540" cy="250" rx="550.0" ry="85.0" fill="none" stroke="#34c759" stroke-width="12" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-linecap="round"/></g></svg></div>
 <div id="x3" class="clip mark" data-start="11.10" data-duration="1.95" data-track-index="2" style="z-index:30"><div id="x3-in" class="mark-in bad"><svg viewBox="0 0 100 100" width="120" height="120"><path d="M20 20 80 80M80 20 20 80" stroke="#fff" stroke-width="14" stroke-linecap="round" fill="none"/></svg></div></div>
 <div id="v3" class="clip mark" data-start="13.30" data-duration="1.95" data-track-index="2" style="z-index:30"><div id="v3-in" class="mark-in good"><svg viewBox="0 0 100 100" width="120" height="120"><path id="v3-p" d="M18 54 40 76 84 26" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="110" stroke-dashoffset="110"/></svg></div></div>
 <div id="cb3" class="clip cap" data-start="11.10" data-duration="1.95" data-track-index="3" style="z-index:31"><div id="cb3-in" class="cap-in"><span class="num">3</span>Шкаф төбеге жетпейді</div></div>
 <div id="cg3" class="clip cap" data-start="13.30" data-duration="1.95" data-track-index="3" style="z-index:31"><div id="cg3-in" class="cap-in"><span class="num ok">3</span>Шкаф төбеге дейін</div></div>
 <div id="shade" class="clip" data-start="0" data-duration="15.40" data-track-index="4"></div>
 <div id="intro" class="clip" data-start="0" data-duration="1.80" data-track-index="5"><div id="intro-in">Ас үйдегі<br><span>қымбат</span><br>қателіктер</div></div>
-<div id="title" class="clip" data-start="1.60" data-duration="13.80" data-track-index="6"><div id="title-in">Ас үйдегі <b>қымбат</b> қателіктер</div></div>
 <div id="end" class="clip" data-start="15.40" data-duration="3.2" data-track-index="7" style="z-index:40">
   <div id="e-bg"></div>
   <div id="e-q">Ас үйді<br>қателіксіз жасаймыз</div>
@@ -72,7 +72,6 @@ window.__timelines = window.__timelines || {};
 const tl = gsap.timeline({ paused:true });
 tl.fromTo("#intro-in",{scale:1.4,opacity:0},{scale:1,opacity:1,duration:.45,ease:"power4.out"},0.05);
 tl.to("#intro-in",{opacity:0,y:-40,duration:.25,ease:"power2.in"},1.40);
-tl.fromTo("#title-in",{y:20,opacity:0},{y:0,opacity:1,duration:.3,ease:"power3.out"},1.60);
 tl.fromTo("#b1-in",{scale:1.0},{scale:1.08,duration:4.20,ease:"none"},0.00);
 tl.fromTo("#g1-in",{clipPath:"inset(0% 100% 0% 0%)",scale:1.06},{clipPath:"inset(0% 0% 0% 0%)",scale:1.0,duration:.45,ease:"power3.inOut"},3.80);
 tl.to("#g1-in",{scale:1.06,duration:2.2,ease:"none"},4.25);
@@ -80,6 +79,8 @@ tl.fromTo("#x1-in",{scale:2.2,opacity:0,rotation:-25},{scale:1,opacity:1,rotatio
 tl.fromTo("#x1-in",{x:-8},{x:8,duration:.06,yoyo:true,repeat:5,ease:"none"},2.22);
 tl.fromTo("#v1-in",{scale:.4,opacity:0},{scale:1,opacity:1,duration:.3,ease:"back.out(2)"},4.10);
 tl.fromTo("#v1-p",{strokeDashoffset:110},{strokeDashoffset:0,duration:.4,ease:"power2.out"},4.25);
+tl.fromTo("#h1_bad",{strokeDashoffset:4000},{strokeDashoffset:0,duration:.6,ease:"power2.out"},2.05);
+tl.fromTo("#h1_good",{strokeDashoffset:4000},{strokeDashoffset:0,duration:.6,ease:"power2.out"},4.30);
 tl.fromTo("#cb1-in",{y:24,opacity:0},{y:0,opacity:1,duration:.25,ease:"power3.out"},1.95);
 tl.fromTo("#cg1-in",{y:24,opacity:0},{y:0,opacity:1,duration:.25,ease:"power3.out"},4.15);
 tl.fromTo("#b2-in",{scale:1.0},{scale:1.08,duration:2.95,ease:"none"},5.85);
@@ -89,6 +90,8 @@ tl.fromTo("#x2-in",{scale:2.2,opacity:0,rotation:-25},{scale:1,opacity:1,rotatio
 tl.fromTo("#x2-in",{x:-8},{x:8,duration:.06,yoyo:true,repeat:5,ease:"none"},6.82);
 tl.fromTo("#v2-in",{scale:.4,opacity:0},{scale:1,opacity:1,duration:.3,ease:"back.out(2)"},8.70);
 tl.fromTo("#v2-p",{strokeDashoffset:110},{strokeDashoffset:0,duration:.4,ease:"power2.out"},8.85);
+tl.fromTo("#h2_bad",{strokeDashoffset:4000},{strokeDashoffset:0,duration:.6,ease:"power2.out"},6.65);
+tl.fromTo("#h2_good",{strokeDashoffset:4000},{strokeDashoffset:0,duration:.6,ease:"power2.out"},8.90);
 tl.fromTo("#cb2-in",{y:24,opacity:0},{y:0,opacity:1,duration:.25,ease:"power3.out"},6.55);
 tl.fromTo("#cg2-in",{y:24,opacity:0},{y:0,opacity:1,duration:.25,ease:"power3.out"},8.75);
 tl.fromTo("#b3-in",{scale:1.0},{scale:1.08,duration:2.95,ease:"none"},10.45);
@@ -98,6 +101,8 @@ tl.fromTo("#x3-in",{scale:2.2,opacity:0,rotation:-25},{scale:1,opacity:1,rotatio
 tl.fromTo("#x3-in",{x:-8},{x:8,duration:.06,yoyo:true,repeat:5,ease:"none"},11.42);
 tl.fromTo("#v3-in",{scale:.4,opacity:0},{scale:1,opacity:1,duration:.3,ease:"back.out(2)"},13.30);
 tl.fromTo("#v3-p",{strokeDashoffset:110},{strokeDashoffset:0,duration:.4,ease:"power2.out"},13.45);
+tl.fromTo("#h3_bad",{strokeDashoffset:4000},{strokeDashoffset:0,duration:.6,ease:"power2.out"},11.25);
+tl.fromTo("#h3_good",{strokeDashoffset:4000},{strokeDashoffset:0,duration:.6,ease:"power2.out"},13.50);
 tl.fromTo("#cb3-in",{y:24,opacity:0},{y:0,opacity:1,duration:.25,ease:"power3.out"},11.15);
 tl.fromTo("#cg3-in",{y:24,opacity:0},{y:0,opacity:1,duration:.25,ease:"power3.out"},13.35);
 tl.fromTo("#e-bg",{opacity:0},{opacity:1,duration:.3},15.40);

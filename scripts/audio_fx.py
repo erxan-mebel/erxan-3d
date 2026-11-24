@@ -100,12 +100,27 @@ def _pop():
     return 0.6 * np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-30 * t)
 
 
+def _buzz():
+    t = np.arange(int(0.42 * SR)) / SR
+    env = np.where(t < 0.18, 1.0, np.where(t < 0.22, 0.0, 1.0)) * np.exp(-3 * t)
+    sq = np.sign(np.sin(2 * np.pi * 140 * t)) * 0.5 + np.sign(np.sin(2 * np.pi * 147 * t)) * 0.5
+    thump = np.sin(2 * np.pi * (60 + 120 * np.exp(-40 * t)) * t) * np.exp(-14 * t)
+    return 0.45 * sq * env + 0.8 * thump
+
+
+def _ding():
+    t = np.arange(int(0.7 * SR)) / SR
+    a = np.sin(2 * np.pi * 1318.5 * t) * np.exp(-5 * t)
+    b = np.sin(2 * np.pi * 1760 * t) * np.exp(-5 * np.maximum(t - 0.09, 0)) * (t > 0.09)
+    return 0.45 * (a + b)
+
+
 def sfx(events, seconds, path, seed=3):
     rng = np.random.default_rng(seed)
     n = int(seconds * SR)
     out = np.zeros(n)
     for t, kind in events:
-        sig = _whoosh(rng) if kind == "whoosh" else _pop()
+        sig = {"whoosh": lambda: _whoosh(rng), "pop": _pop, "wrong": _buzz, "ding": _ding}[kind]()
         start = int(max(0, t - (0.3 if kind == "whoosh" else 0)) * SR)
         j = min(n, start + len(sig))
         out[start:j] += sig[: j - start]
