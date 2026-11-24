@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --bg: #0b0b0e;
+        --panel: #16161b;
+        --row: #1e1e25;
+        --line: #2a2a33;
+        --ink: #f4f4f6;
+        --dim: #8b8b96;
+        --copper: #e8935a;
+        --orange: #f08a4b;
+        --lime: #c6f24e;
+        --violet: #a99bff;
+        --blue: #4a86f0;
+        --green: #3ecf8e;
+        --red: #ff4d6a;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; font-family: Inter, sans-serif; color: var(--ink); }
+      .mono { font-family: "JetBrains Mono", monospace; }
+
+      /* top bar */
+      #bar { position: absolute; left: 24px; top: 28px; width: 1032px; height: 90px; border-radius: 45px; background: #000; border: 2px solid #23232a; display: flex; align-items: center; padding: 0 34px; gap: 14px; }
+      .dot { width: 20px; height: 20px; border-radius: 50%; }
+      #bar .title { margin-left: 20px; font-size: 32px; font-weight: 700; }
+      #bar .status { margin-left: auto; font-size: 24px; color: var(--dim); display: flex; align-items: center; gap: 12px; }
+      #bar .status i { width: 14px; height: 14px; border-radius: 50%; background: var(--lime); display: block; }
+
+      /* preview */
+      #preview { position: absolute; left: 24px; top: 140px; width: 620px; height: 1102px; border-radius: 30px; overflow: hidden; background: #000; border: 2px solid #23232a; }
+      #clip { position: absolute; left: 0; top: 0; width: 620px; height: 1102px; object-fit: cover; }
+      #chip { position: absolute; left: 22px; top: 22px; padding: 12px 22px; border-radius: 30px; background: rgba(0,0,0,.72); font-size: 24px; font-weight: 700; color: var(--lime); }
+      #chip b { color: var(--ink); font-weight: 700; }
+      .sub { position: absolute; left: 30px; right: 30px; top: 880px; text-align: center; font-size: 44px; font-weight: 900; line-height: 1.15; text-shadow: 0 3px 0 #111, 0 0 18px rgba(0,0,0,.65); }
+      .sub span { display: inline-block; }
+      .card { position: absolute; left: 0; right: 0; top: 730px; display: flex; justify-content: center; }
+      .card div { padding: 16px 32px; border-radius: 22px; background: var(--copper); color: #141414; font-size: 50px; font-weight: 900; letter-spacing: -0.01em; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+      #card2 div { background: var(--red); color: #fff; }
+      #focus { position: absolute; left: 150px; top: 150px; width: 330px; height: 420px; }
+      #focus i { position: absolute; width: 60px; height: 60px; border: 6px solid var(--lime); }
+      #focus i:nth-child(1) { left: 0; top: 0; border-right: 0; border-bottom: 0; border-radius: 18px 0 0 0; }
+      #focus i:nth-child(2) { right: 0; top: 0; border-left: 0; border-bottom: 0; border-radius: 0 18px 0 0; }
+      #focus i:nth-child(3) { left: 0; bottom: 0; border-right: 0; border-top: 0; border-radius: 0 0 0 18px; }
+      #focus i:nth-child(4) { right: 0; bottom: 0; border-left: 0; border-top: 0; border-radius: 0 0 18px 0; }
+      #focus span { position: absolute; left: 0; top: -46px; font-size: 22px; font-weight: 700; color: #141414; background: var(--lime); padding: 4px 12px; border-radius: 8px; }
+
+      /* right column */
+      .panel { position: absolute; left: 664px; width: 392px; background: var(--panel); border-radius: 30px; border: 2px solid #23232a; padding: 24px 20px; }
+      .panel h3 { font-size: 30px; font-weight: 700; display: flex; align-items: center; }
+      .panel h3 small { margin-left: auto; font-size: 24px; color: var(--dim); font-weight: 700; }
+      #agents { top: 140px; height: 760px; }
+      .ag { position: relative; height: 86px; margin-top: 12px; border-radius: 18px; background: var(--row); padding: 14px 16px 0 52px; }
+      .ag i { position: absolute; left: 18px; top: 33px; width: 18px; height: 18px; border-radius: 50%; }
+      .ag b { display: block; font-size: 25px; font-weight: 700; }
+      .ag em { display: block; font-style: normal; font-size: 20px; color: var(--dim); margin-top: 4px; white-space: nowrap; overflow: hidden; }
+      .ag .ok { position: absolute; right: 18px; top: 26px; font-size: 28px; font-weight: 900; color: var(--lime); }
+      #color { top: 920px; height: 150px; }
+      #color p { font-size: 22px; color: var(--dim); margin-top: 6px; display: flex; }
+      #color p span { margin-left: auto; color: var(--ink); font-weight: 700; }
+      .track { position: relative; margin-top: 26px; height: 10px; border-radius: 5px; background: #2b2b33; }
+      #lutfill { position: absolute; left: 0; top: 0; height: 10px; width: 352px; border-radius: 5px; background: #f2c94c; transform-origin: 0 50%; }
+      #knob { position: absolute; left: -14px; top: -11px; width: 32px; height: 32px; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.5); }
+      #export { top: 1090px; height: 152px; }
+      #export p { font-size: 22px; color: var(--dim); margin-top: 2px; }
+      #exrow { display: flex; align-items: center; gap: 14px; margin-top: 8px; }
+      #exbar { position: relative; flex: 1; height: 12px; border-radius: 6px; background: #2b2b33; overflow: hidden; }
+      #exfill { position: absolute; inset: 0; background: var(--lime); transform-origin: 0 50%; }
+      #btn { position: relative; width: 180px; height: 50px; border-radius: 25px; background: var(--orange); color: #141414; font-size: 24px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+      #btn span { position: absolute; }
+
+      /* timeline */
+      #tl { position: absolute; left: 24px; top: 1266px; width: 1032px; height: 626px; background: var(--panel); border-radius: 30px; border: 2px solid #23232a; }
+      #tc { position: absolute; left: 28px; top: 26px; font-size: 38px; font-weight: 700; }
+      #legend { position: absolute; right: 26px; top: 28px; display: flex; gap: 12px; }
+      #legend div { padding: 8px 18px; border-radius: 20px; background: var(--row); font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+      #legend i { width: 12px; height: 12px; border-radius: 50%; display: block; }
+      #ruler { position: absolute; left: 86px; top: 100px; width: 920px; height: 26px; border-bottom: 2px solid var(--line); background: repeating-linear-gradient(90deg, #4a4a55 0 2px, transparent 2px 52.57px); background-size: 52.57px 14px; background-repeat: repeat-x; background-position: 0 bottom; }
+      .lab { position: absolute; left: 26px; font-size: 24px; color: var(--dim); font-weight: 700; }
+      .lane { position: absolute; left: 86px; width: 920px; }
+      .blk { position: absolute; top: 0; bottom: 0; border-radius: 12px; font-size: 20px; font-weight: 700; color: #1b1b22; padding: 0 10px; display: flex; align-items: center; white-space: nowrap; overflow: hidden; transform-origin: 0 50%; }
+      #T1 { top: 150px; height: 64px; }
+      #T1 .blk { background: var(--violet); }
+      #V1 { top: 232px; height: 64px; }
+      #V1 .blk { background: var(--blue); color: #fff; }
+      #FX { top: 314px; height: 40px; }
+      #FX .blk { background: var(--lime); font-size: 18px; }
+      #A1 { top: 372px; height: 80px; display: flex; align-items: center; justify-content: space-between; }
+      #A1 i { display: block; width: 3px; border-radius: 2px; background: var(--green); }
+      #A2 { top: 470px; height: 40px; }
+      #A2 .blk { background: var(--orange); opacity: .85; font-size: 18px; }
+      #A3 { top: 528px; height: 40px; }
+      #A3 .blk { background: #ffd166; font-size: 16px; padding: 0 6px; }
+      #head { position: absolute; left: 86px; top: 84px; width: 4px; height: 512px; }
+      #head .line { position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--red); }
+      #head .tag { position: absolute; left: -84px; top: -20px; width: 172px; height: 44px; }
+      #head .tag span { position: absolute; inset: 0; border-radius: 12px; background: var(--orange); color: #141414; font-size: 21px; font-weight: 900; display: flex; align-items: center; justify-content: center; opacity: 0; }
+
+      /* cursor */
+      #cursor { position: absolute; left: 0; top: 0; width: 44px; height: 54px; }
+      #ring { position: absolute; left: -26px; top: -26px; width: 52px; height: 52px; border-radius: 50%; border: 4px solid #fff; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="8.75" data-width="1080" data-height="1920">
+      <!-- media -->
+      <audio id="music" class="clip" data-start="0" data-duration="8.75" data-track-index="10" data-volume="0.12" src="assets/music.wav"></audio>
+      <audio id="sfx" class="clip" data-start="0" data-duration="8.75" data-track-index="11" data-volume="0.55" src="assets/sfx.wav"></audio>
+
+      <div id="bar">
+        <div class="dot" style="background:#ff5f57"></div>
+        <div class="dot" style="background:#febc2e"></div>
+        <div class="dot" style="background:#28c840"></div>
+        <div class="title">ERXAN MEBEL · Reels</div>
+        <div class="status"><i id="live"></i><span>7 агент жұмыста</span></div>
+      </div>
+
+      <div id="preview">
+        <video id="clip" class="clip" data-start="0" data-duration="8.75" data-track-index="0" src="assets/clip.mp4" data-has-audio="true" playsinline></video>
+        <div id="chip">Claude <b>· монтаж</b></div>
+
+        <div id="focus"><i></i><i></i><i></i><i></i><span>фокус · бет</span></div>
+
+        <div id="card1" class="card clip" data-start="0.92" data-duration="3.16" data-track-index="3"><div>−3 000 000 ₸</div></div>
+        <div id="card2" class="card clip" data-start="6.34" data-duration="1.86" data-track-index="3"><div>МОШЕННИК?</div></div>
+
+        <div id="s1" class="sub clip" data-start="0.37" data-duration="0.55" data-track-index="2"><span>Клиентіміз</span></div>
+        <div id="s2" class="sub clip" data-start="0.92" data-duration="1.40" data-track-index="2"><span>3</span> <span>миллион</span> <span>теңгеге</span></div>
+        <div id="s3" class="sub clip" data-start="2.32" data-duration="2.42" data-track-index="2"><span>алданыпты</span> <span>мебельшіктерден.</span></div>
+        <div id="s4" class="sub clip" data-start="4.94" data-duration="0.92" data-track-index="2"><span>Енді</span> <span>маған</span> <span>айтады:</span></div>
+        <div id="s5" class="sub clip" data-start="5.86" data-duration="1.74" data-track-index="2"><span>«Сендер</span> <span>мошенник</span></div>
+        <div id="s6" class="sub clip" data-start="7.60" data-duration="1.15" data-track-index="2"><span>емессіңдер</span> <span>ме?»</span> <span>деп.</span></div>
+      </div>
+
+      <div id="agents" class="panel">
+        <h3>AI агенттер <small id="count" class="mono">0/7</small></h3>
+        <div class="ag" id="ag1"><i style="background:#febc2e"></i><b>Agent #11</b><em>түс · Rec.709 LUT 60%</em><span class="ok">✓</span></div>
+        <div class="ag" id="ag2"><i style="background:var(--violet)"></i><b>Agent #14</b><em>мәтін · «Клиентіміз»</em><span class="ok">✓</span></div>
+        <div class="ag" id="ag3"><i style="background:var(--lime)"></i><b>Agent #22</b><em>карточка · −3 000 000 ₸</em><span class="ok">✓</span></div>
+        <div class="ag" id="ag4"><i style="background:var(--violet)"></i><b>Agent #15</b><em>мәтін · «алданыпты»</em><span class="ok">✓</span></div>
+        <div class="ag" id="ag5"><i style="background:var(--lime)"></i><b>Agent #25</b><em>фокус · рамка бетке</em><span class="ok">✓</span></div>
+        <div class="ag" id="ag6"><i style="background:var(--red)"></i><b>Agent #16</b><em>карточка · «МОШЕННИК?»</em><span class="ok">✓</span></div>
+        <div class="ag" id="ag7"><i style="background:#fff"></i><b>Agent #30</b><em>экспорт · 4K рендер</em><span class="ok">✓</span></div>
+      </div>
+
+      <div id="color" class="panel">
+        <h3>Түс</h3>
+        <p>LUT · Rec.709 <span id="lutval" class="mono">0%</span></p>
+        <div class="track"><div id="lutfill"></div><div id="knob"></div></div>
+      </div>
+
+      <div id="export" class="panel">
+        <h3>Экспорт</h3>
+        <p>4K · 30 fps · H.264</p>
+        <div id="exrow">
+          <div id="exbar"><div id="exfill"></div></div>
+          <div id="btn"><span id="btnA">Рендер</span><span id="btnB" style="opacity:0">Дайын ✓</span></div>
+        </div>
+      </div>
+
+      <div id="tl">
+        <div id="tc" class="mono">00:00:00:00</div>
+        <div id="legend">
+          <div><i style="background:var(--orange)"></i>Агент</div>
+          <div><i style="background:var(--violet)"></i>Мәтін</div>
+          <div><i style="background:#ffd166"></i>SFX</div>
+        </div>
+        <div id="ruler"></div>
+        <div class="lab" style="top:168px">T1</div>
+        <div class="lab" style="top:250px">V1</div>
+        <div class="lab" style="top:320px">FX</div>
+        <div class="lab" style="top:398px">A1</div>
+        <div class="lab" style="top:476px">A2</div>
+        <div class="lab" style="top:534px">A3</div>
+
+        <!-- x = seconds * 105.14 -->
+        <div id="T1" class="lane">
+          <div class="blk" id="t1" style="left:39px;width:56px">Кл</div>
+          <div class="blk" id="t2" style="left:97px;width:144px">3 миллион</div>
+          <div class="blk" id="t3" style="left:243px;width:183px">алданыпты</div>
+          <div class="blk" id="t4" style="left:519px;width:95px">Енді</div>
+          <div class="blk" id="t5" style="left:616px;width:181px">мошенник</div>
+          <div class="blk" id="t6" style="left:799px;width:101px">ме? деп</div>
+        </div>
+        <div id="V1" class="lane">
+          <div class="blk" id="v1" style="left:0;width:427px">clip 1 · IMG_5302</div>
+          <div class="blk" id="v2" style="left:431px;width:489px">clip 2</div>
+        </div>
+        <div id="FX" class="lane">
+          <div class="blk" id="f1" style="left:0;width:920px;background:#f2c94c">LUT 60%</div>
+        </div>
+        <div id="A1" class="lane"></div>
+        <div id="A2" class="lane"><div class="blk" id="m1" style="left:0;width:920px">♪ музыка · −18 dB</div></div>
+        <div id="A3" class="lane">
+          <div class="blk" id="x1" style="left:39px;width:30px">•</div>
+          <div class="blk" id="x2" style="left:97px;width:30px">•</div>
+          <div class="blk" id="x3" style="left:243px;width:30px">•</div>
+          <div class="blk" id="x4" style="left:519px;width:30px">•</div>
+          <div class="blk" id="x5" style="left:666px;width:30px">•</div>
+          <div class="blk" id="x6" style="left:831px;width:30px">•</div>
+        </div>
+
+        <div id="head">
+          <div class="line"></div>
+          <div class="tag">
+            <span id="h1">Agent #11</span><span id="h2">Agent #14</span><span id="h3">Agent #22</span><span id="h4">Agent #15</span><span id="h5">Agent #25</span><span id="h6">Agent #16</span><span id="h7">Agent #30</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="cursor">
+        <div id="ring"></div>
+        <svg width="44" height="54" viewBox="0 0 44 54"><path d="M3 3 L3 44 L14 34 L22 51 L30 47 L22 31 L37 31 Z" fill="#fff" stroke="#000" stroke-width="3" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    <script>
+      // Static waveform (RMS of the clip's own audio, 150 bars).
+      const wf = [10,11,12,11,10,12,12,21,47,50,31,13,22,34,38,38,17,16,31,43,45,44,41,26,12,11,13,24,22,44,27,13,18,24,21,22,20,26,31,32,20,11,11,15,22,24,14,29,26,19,17,10,11,24,24,17,21,17,18,15,10,10,13,18,15,19,15,12,11,10,11,10,11,11,10,13,11,12,11,10,11,10,10,12,10,16,23,16,19,17,26,31,23,23,18,14,15,20,17,22,18,12,15,24,20,19,19,23,27,40,36,34,33,29,30,27,22,23,20,15,13,11,13,13,28,25,13,23,28,23,15,26,26,26,15,14,15,24,28,21,24,23,18,14,13,12,12,12,12,13];
+      const A1 = document.getElementById("A1");
+      wf.forEach((h) => { const i = document.createElement("i"); i.style.height = Math.round(h * 1.5) + "px"; A1.appendChild(i); });
+
+      const D = 8.75, W = 920;
+      const tl = gsap.timeline({ paused: true });
+
+      // initial states
+      gsap.set(".ag", { opacity: 0, x: 40 });
+      gsap.set(".ag .ok", { opacity: 0, scale: 0.3 });
+      gsap.set("#T1 .blk, #FX .blk, #A3 .blk", { scaleX: 0 });
+      gsap.set("#lutfill", { scaleX: 0 });
+      gsap.set("#exfill", { scaleX: 0 });
+      gsap.set("#focus", { opacity: 0, scale: 1.25 });
+      gsap.set(".card div", { scale: 0.6, opacity: 0 });
+      gsap.set("#cursor", { x: 820, y: 1000 });
+
+      // playhead + timecode (pure functions of timeline time)
+      tl.fromTo("#head", { x: 0 }, { x: W, duration: D, ease: "none" }, 0);
+      tl.fromTo("#head .tag", { x: 60 }, { x: -100, duration: D, ease: "none" }, 0);
+      const clock = { t: 0 };
+      const tc = document.getElementById("tc");
+      tl.fromTo(clock, { t: 0 }, { t: D, duration: D, ease: "none", onUpdate() {
+        const f = Math.floor(clock.t * 30 + 1e-6), s = Math.floor(f / 30), fr = f % 30;
+        tc.textContent = "00:00:" + String(s).padStart(2, "0") + ":" + String(fr).padStart(2, "0");
+      } }, 0);
+
+      // agents: [row, startTime, headTag]
+      const AG = [["#ag1", 0.2], ["#ag2", 0.45], ["#ag3", 0.8], ["#ag4", 2.2], ["#ag5", 4.8], ["#ag6", 6.2], ["#ag7", 7.55]];
+      const count = document.getElementById("count");
+      AG.forEach(([id, t], k) => {
+        tl.to(id, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(1.6)" }, t);
+        tl.to(id + " i", { scale: 1.6, duration: 0.15, yoyo: true, repeat: 3, ease: "sine.inOut" }, t);
+        tl.to(id + " .ok", { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2.5)" }, t + 0.55);
+        tl.set(count, { textContent: (k + 1) + "/7" }, t + 0.55);
+        const h = "#h" + (k + 1), next = AG[k + 1] ? AG[k + 1][1] : D;
+        tl.set(h, { opacity: 1 }, t).set(h, { opacity: 0 }, next);
+      });
+      tl.set(count, { textContent: "0/7" }, 0);
+
+      // T1 / FX / SFX blocks draw in
+      [["#t1", 0.37], ["#t2", 0.92], ["#t3", 2.32], ["#t4", 4.94], ["#t5", 5.86], ["#t6", 7.6]].forEach(([id, t]) =>
+        tl.to(id, { scaleX: 1, duration: 0.3, ease: "power3.out" }, t - 0.15));
+      tl.to("#f1", { scaleX: 1, duration: 0.5, ease: "power2.out" }, 0.4);
+      ["#x1", "#x2", "#x3", "#x4", "#x5", "#x6"].forEach((id, k) =>
+        tl.to(id, { scaleX: 1, duration: 0.15 }, [0.37, 0.92, 2.32, 4.94, 6.34, 7.9][k]));
+
+      // colour grade slider 0 → 60%
+      const lut = document.getElementById("lutval"), lv = { v: 0 };
+      tl.to(lv, { v: 60, duration: 0.7, ease: "power2.inOut", onUpdate() { lut.textContent = Math.round(lv.v) + "%"; } }, 0.45);
+      tl.to("#lutfill", { scaleX: 0.6, duration: 0.7, ease: "power2.inOut" }, 0.45);
+      tl.to("#knob", { x: 352 * 0.6, duration: 0.7, ease: "power2.inOut" }, 0.45);
+
+      // subtitles: active word in copper
+      const SUB = {
+        s1: [0.37], s2: [0.92, 1.40, 1.80], s3: [2.32, 3.06], s4: [4.94, 5.14, 5.48], s5: [5.86, 6.34], s6: [7.60, 8.12, 8.26],
+      };
+      Object.entries(SUB).forEach(([id, times]) => {
+        const spans = document.querySelectorAll("#" + id + " span");
+        tl.fromTo("#" + id + " span", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.18, ease: "power2.out", stagger: 0.03 }, times[0]);
+        times.forEach((t, j) => {
+          tl.set(spans, { color: "#f4f4f6" }, t);
+          tl.set(spans[j], { color: "#e8935a" }, t);
+        });
+      });
+
+      // cards
+      tl.to("#card1 div", { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 0.95);
+      tl.to("#card1 div", { scale: 0.85, opacity: 0, duration: 0.2 }, 3.85);
+      tl.to("#card2 div", { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" }, 6.36);
+      tl.to("#card2 div", { rotation: -3, duration: 0.08, yoyo: true, repeat: 3 }, 6.7);
+      tl.to("#card2 div", { scale: 0.85, opacity: 0, duration: 0.2 }, 7.95);
+      // camera drops at the end: clear the face
+      tl.to("#s6 span", { opacity: 0, y: 12, duration: 0.2, stagger: 0.03 }, 8.12);
+
+      // focus frame on the face
+      tl.to("#focus", { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, 4.95);
+      tl.to("#focus", { opacity: 0, duration: 0.3 }, 6.0);
+
+      // export
+      tl.to("#exfill", { scaleX: 1, duration: 0.85, ease: "power1.inOut" }, 7.75);
+      tl.to("#btn", { scale: 0.92, duration: 0.08, yoyo: true, repeat: 1 }, 7.6);
+      tl.to("#btnA", { opacity: 0, duration: 0.15 }, 8.55);
+      tl.to("#btnB", { opacity: 1, duration: 0.15 }, 8.55);
+      tl.to("#btn", { backgroundColor: "#3ecf8e", duration: 0.2 }, 8.55);
+
+      // mouse cursor path: agents → LUT slider → agents → face → render button
+      const click = (t) => tl.fromTo("#ring", { scale: 0.4, opacity: 1 }, { scale: 1.4, opacity: 0, duration: 0.35, ease: "power2.out" }, t);
+      tl.to("#cursor", { x: 870, y: 1010, duration: 0.35, ease: "power2.inOut" }, 0.1); click(0.45);
+      tl.to("#cursor", { x: 900, y: 360, duration: 0.6, ease: "power2.inOut" }, 1.3); click(1.95);
+      tl.to("#cursor", { x: 860, y: 520, duration: 0.5, ease: "power2.inOut" }, 2.0);
+      tl.to("#cursor", { x: 340, y: 600, duration: 0.7, ease: "power2.inOut" }, 4.2); click(4.95);
+      tl.to("#cursor", { x: 880, y: 760, duration: 0.6, ease: "power2.inOut" }, 5.6); click(6.25);
+      tl.to("#cursor", { x: 960, y: 1180, duration: 0.6, ease: "power2.inOut" }, 6.9); click(7.6);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
