@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="kk"><head><meta charset="UTF-8"><meta name="viewport" content="width=1080, height=1920">
+<script src="assets/gsap.min.js"></script>
+<style>
+@font-face { font-family:"InterK"; font-weight:600; src:url("assets/fonts/Inter-SemiBold.otf"); }
+@font-face { font-family:"InterK"; font-weight:900; src:url("assets/fonts/Inter-Black.otf"); }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:1080px; height:1920px; overflow:hidden; background:#141414; }
+#root { position:relative; width:100%; height:100%; font-family:"InterK",sans-serif; }
+#main { position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; }
+#hook { position:absolute; left:50px; right:150px; top:1120px; }
+#hook-in { display:inline-block; padding:22px 32px; border-radius:28px; background:rgba(20,20,20,.86); border-left:12px solid #f1c232; }
+#h1 { font-weight:600; font-size:52px; color:#f3ebe5; line-height:1.15; }
+#h2 { font-weight:900; font-size:70px; color:#f1c232; line-height:1.1; }
+#flash { position:absolute; inset:0; background:#fff; opacity:0; }
+#end { position:absolute; inset:0; }
+#e-bg { position:absolute; inset:0; background:radial-gradient(circle at 50% 40%, #3a2418 0%, #161311 55%, #0f0d0c 100%); }
+#e-q { position:absolute; left:40px; right:40px; top:500px; text-align:center; font-weight:900; font-size:66px; color:#f1c232; line-height:1.15; }
+#e-name { position:absolute; left:0; right:0; top:690px; text-align:center; font-weight:900; font-size:124px; letter-spacing:6px; color:#fff; }
+#e-name span { color:#d9825b; }
+#e-sub { position:absolute; left:0; right:0; top:860px; text-align:center; font-weight:600; font-size:52px; color:#e6d7cc; }
+#e-cta { position:absolute; left:190px; top:990px; width:700px; height:116px; border-radius:58px; background:#d9825b; color:#141414;
+  font-weight:900; font-size:56px; display:flex; align-items:center; justify-content:center; }
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="24.15" data-width="1080" data-height="1920">
+<video id="main" class="clip" src="assets/video/main.mp4" data-start="0" data-duration="21.55" data-track-index="0" data-has-audio="true" data-volume="1" playsinline style="z-index:1"></video>
+<div id="hook" class="clip" data-start="0" data-duration="3.2" data-track-index="1" style="z-index:20"><div id="hook-in"><div id="h1">Соңына дейін</div><div id="h2">көріңіз 👀</div></div></div>
+<div id="fl" class="clip" data-start="0" data-duration="0.4" data-track-index="2" style="z-index:25"><div id="flash"></div></div>
+<div id="end" class="clip" data-start="21.55" data-duration="2.6" data-track-index="3" style="z-index:40">
+  <div id="e-bg"></div>
+  <div id="e-q">Қайта көріңіз 🔁</div>
+  <div id="e-name">ERXAN <span>MEBEL</span></div>
+  <div id="e-sub">Ас үй тапсырыс бойынша · Астана</div>
+  <div id="e-cta">Директке жазыңыз</div>
+</div>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused:true });
+tl.fromTo("#flash",{opacity:.6},{opacity:0,duration:.35,ease:"power2.out"},0);
+tl.fromTo("#hook-in",{x:-140,opacity:0},{x:0,opacity:1,duration:.4,ease:"back.out(1.7)"},0.05);
+tl.fromTo("#h2",{scale:.85},{scale:1,duration:.3,ease:"back.out(2)",transformOrigin:"0% 50%"},0.3);
+tl.to("#hook-in",{opacity:0,x:60,duration:.25,ease:"power2.in"},2.9);
+tl.fromTo("#e-bg",{opacity:0},{opacity:1,duration:.3},21.55);
+tl.fromTo("#e-q",{y:30,opacity:0},{y:0,opacity:1,duration:.4,ease:"power3.out"},21.65);
+tl.fromTo("#e-name",{scale:1.5,opacity:0},{scale:1,opacity:1,duration:.45,ease:"power4.out"},21.90);
+tl.fromTo("#e-sub",{y:40,opacity:0},{y:0,opacity:1,duration:.4,ease:"power3.out"},22.15);
+tl.fromTo("#e-cta",{scale:.6,opacity:0},{scale:1,opacity:1,duration:.45,ease:"back.out(2)"},22.40);
+tl.to("#e-cta",{scale:1.07,duration:.3,yoyo:true,repeat:2,ease:"sine.inOut"},22.90);
+window.__timelines["main"] = tl;
+</script>
+</body></html>
