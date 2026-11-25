@@ -34,4 +34,5 @@ Remotion needs a paid company license for some businesses; see the `remotion-lic
 - Reaction/разбор reels over someone else's footage: blur the original burned-in text and put the user's own words there as plain white captions.
 - Face circle / picture-in-picture: frame from the hair line down to the chest, never a tight face crop.
 - Talking-head footage: keep the original wide framing — no zoom-in, no punch-ins, no cropping closer than the source. If text would cover the face, move the text, not the picture.
+- User's usual short-video style: two on-screen phrases — one for the first half of the clip, a second one for the rest.
 - Whenever the user states a new preference, add it to this list.
